@@ -322,7 +322,7 @@ a{color:inherit}
 .cv-canvas canvas{display:block;width:100%;height:auto;cursor:grab;touch-action:none}
 .cv-canvas canvas.grab{cursor:grabbing}
 .cv-actions{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center;margin-top:14px}
-@media (max-width:900px){.cv-grid{grid-template-columns:minmax(0,1fr)}.cv-stage{position:static;order:-1}}
+@media (max-width:900px){.cv-grid{grid-template-columns:minmax(0,1fr)}.cv-stage{position:static;order:-1}.cv-canvas{max-width:min(480px,100%)}}
 /* Covers : tout l'outil tient dans l'écran (ordinateur) */
 .cv .page-h{margin:0}.cv .page-h h1{font-size:clamp(26px,3vw,34px);margin:0}
 .cv .page-h .meta{display:none}
@@ -333,7 +333,7 @@ a{color:inherit}
 .cv-tpls{margin:0}
 .cv-tpl{padding:7px 14px}
 @media (min-width:901px){
- .cv-grid{--cvh:calc(100dvh - var(--cv-top,250px) - 16px);align-items:stretch}
+ .cv-grid{--cvh:max(460px,calc(100dvh - var(--cv-top,250px) - 16px));align-items:stretch}
  .cv-form{max-height:var(--cvh);overflow:auto;gap:10px;padding:16px 18px;align-content:start}
  .cv-form h2{font-size:16px}
  .cv-stage{position:static;display:flex;flex-direction:column;align-items:center;max-height:var(--cvh)}

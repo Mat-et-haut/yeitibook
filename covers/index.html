@@ -325,7 +325,7 @@ a{color:inherit}
 .cv-canvas canvas{display:block;width:100%;height:auto;cursor:grab;touch-action:none}
 .cv-canvas canvas.grab{cursor:grabbing}
 .cv-actions{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center;margin-top:14px}
-@media (max-width:900px){.cv-grid{grid-template-columns:minmax(0,1fr)}.cv-stage{position:static;order:-1}}
+@media (max-width:900px){.cv-grid{grid-template-columns:minmax(0,1fr)}.cv-stage{position:static;order:-1}.cv-canvas{max-width:min(480px,100%)}}
 /* Covers : tout l'outil tient dans l'écran (ordinateur) */
 .cv .page-h{margin:0}.cv .page-h h1{font-size:clamp(26px,3vw,34px);margin:0}
 .cv .page-h .meta{display:none}
@@ -336,7 +336,7 @@ a{color:inherit}
 .cv-tpls{margin:0}
 .cv-tpl{padding:7px 14px}
 @media (min-width:901px){
- .cv-grid{--cvh:calc(100dvh - var(--cv-top,250px) - 16px);align-items:stretch}
+ .cv-grid{--cvh:max(460px,calc(100dvh - var(--cv-top,250px) - 16px));align-items:stretch}
  .cv-form{max-height:var(--cvh);overflow:auto;gap:10px;padding:16px 18px;align-content:start}
  .cv-form h2{font-size:16px}
  .cv-stage{position:static;display:flex;flex-direction:column;align-items:center;max-height:var(--cvh)}
@@ -667,6 +667,7 @@ p.gt{margin:0}
 
 <style>
 [hidden]{display:none!important}
+html,body{height:auto!important;overflow:auto!important}
 body{margin:0;background:var(--bg);color:var(--text,#160f20)}
 .cv-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px;border-bottom:1px solid var(--line);background:var(--panel)}
 .cv-top .brand{display:flex;align-items:center;gap:10px;font:800 18px/1 var(--f-display);color:inherit;text-decoration:none}
@@ -848,7 +849,7 @@ function pageCovers(){
    </form>
    <div class="cv-stage">
     <div class="cv-canvas" id="cvwrap"><canvas id="cvc" aria-label="Aperçu de la cover"></canvas></div>
-    <p class="cv-hint">Glisse la photo pour la recadrer, molette ou curseur pour zoomer.</p>
+    <p class="cv-hint">Glisse la photo pour la recadrer, utilise le curseur Zoom pour l’agrandir.</p>
     <div class="cv-actions"><button type="button" class="y-btn y-btn--primary y-btn--md" id="cvexport">${ic('DownloadSimple')}<span>Exporter en PNG</span></button>
      <label class="cv-check"><input id="cvhd" type="checkbox" checked> Haute définition (1600 px)</label></div>
    </div>
@@ -873,7 +874,6 @@ function pageCovers(){
   cvCanvas.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,dx:CV.dx,dy:CV.dy};cvCanvas.setPointerCapture(e.pointerId);cvCanvas.classList.add('grab')});
   cvCanvas.addEventListener('pointermove',e=>{if(!drag)return;CV.dx=drag.dx+(e.clientX-drag.x)*k();CV.dy=drag.dy+(e.clientY-drag.y)*k();cvDraw()});
   const up=()=>{drag=null;cvCanvas.classList.remove('grab')};cvCanvas.addEventListener('pointerup',up);cvCanvas.addEventListener('pointercancel',up);
-  cvCanvas.addEventListener('wheel',e=>{e.preventDefault();CV.zoom=Math.min(2.2,Math.max(.5,CV.zoom*(e.deltaY<0?1.05:1/1.05)));$('#cvzoom').value=Math.round(CV.zoom*100);cvDraw()},{passive:false});
   $('#cvexport').onclick=async()=>{const b=$('#cvexport');b.disabled=true;
     try{const c=document.createElement('canvas');cvRender(c,$('#cvhd').checked?2:1);
       const blob=await new Promise(r=>c.toBlob(r,'image/png'));const n='pause-produit-'+(slug((CV.nom||'cover').normalize('NFD').replace(/[̀-ͯ]/g,''))||'cover')+'.png';
