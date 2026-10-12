@@ -283,6 +283,10 @@ a{color:inherit}
 .mxw th{padding:8px 12px;font-size:12px;white-space:nowrap}
 .mxw thead th{text-align:center}
 .scrim{display:none}
+.tb-cta{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;margin-right:6px;border-radius:10px;background:var(--accent);color:#fff;font:600 13px/1 var(--f-body);text-decoration:none;white-space:nowrap;transition:filter .15s,transform .15s}
+.tb-cta:hover{filter:brightness(1.1)}.tb-cta:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tb-cta[aria-current]{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
+@media (max-width:560px){.tb-cta span{display:none}.tb-cta{padding:0 10px}}
 /* Sandbox Covers */
 .cv{max-width:1240px}
 .cv-tpls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 20px}
@@ -1266,6 +1270,7 @@ function toolbar(c,title){
    <span class="sp"></span>
    ${showTools?tbtn('ptoggle',I.panel,PCLOSED?'Afficher le panneau':'Masquer le panneau'):''}
    ${c?`<a class="tbtn lnk" href="${FIGMA+c.node}" target="_blank" rel="noopener" title="Ouvrir dans Figma">${I.ext}<span>Figma</span></a>`:''}
+   <a class="tb-cta" aria-label="Créer avec le DS" href="#todo-sandbox-covers"${location.hash==='#todo-sandbox-covers'?' aria-current="page"':''}>${ic('MagicWand',16)}<span>Créer avec le DS</span></a>
    ${tbtn('theme',I.moon,'Changer de thème')}</div>`;
 }
 function bindToolbar(c){
@@ -1315,7 +1320,7 @@ function pageIntro(){
   main.innerHTML=`<div class="home">
   <div class="hero-h"><div class="page-h"><h1>Accueil</h1><div class="meta"><span class="pill">V0</span><span>Source : Figma V2.Design.System</span></div></div>
   <p class="lead">Yeitibook est la vitrine code du design system Yeita. Il reprend l’organisation du fichier Figma : trois familles, puis les pages, puis les composants.</p></div>
-  <div class="cta-band cta-main"><div class="blob"></div><div><h2><strong>Tu veux utiliser</strong> le DS ?</h2><p>Un espace pour que le marketing fabrique ses covers (LinkedIn, YouTube, newsletter, Discord…) avec les composants et les tokens officiels, sans passer par Figma.</p></div><a class="y-btn y-btn--invert y-btn--md" href="#todo-sandbox-covers" style="text-decoration:none"><span>Ouvrir le sandbox Covers</span>${ic('ArrowRight')}</a></div>
+  <div class="cta-band cta-main"><div class="blob"></div><div><h2><strong>Tu veux utiliser</strong> le DS ?</h2><p>Un espace pour que le marketing fabrique ses covers (LinkedIn, YouTube, newsletter, Discord…) avec les composants et les tokens officiels, sans passer par Figma.</p></div><a class="y-btn y-btn--invert y-btn--md" href="#todo-sandbox-covers" style="text-decoration:none"><span>Créer avec le DS</span>${ic('ArrowRight')}</a></div>
   <div class="res">
    <div class="dls"><h2>Télécharger</h2>${dls}</div>
    <section class="sec"><h2>📂 Importez-moi dans Figma</h2>
