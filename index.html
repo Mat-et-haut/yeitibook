@@ -362,9 +362,12 @@ a{color:inherit}
 .cta-band p{margin:8px 0 0;max-width:52ch;font:400 15px/1.5 var(--y-font-secondary);opacity:.85}
 .cta-band .blob{position:absolute;right:-60px;top:-80px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--y-background-brand-light),var(--y-background-brand-medium) 60%,transparent 70%);opacity:.5;pointer-events:none}
 .cta-band>*{position:relative}
-.res{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:14px;margin-top:14px;align-items:start}
-.dls{display:grid;gap:10px}
-.dls h2{margin:4px 0 2px;font:800 24px/1.15 var(--f-display)}
+.res{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:20px;margin-top:24px;align-items:stretch}
+.dls,.imp{display:flex;flex-direction:column;gap:12px;min-width:0}
+.dls h2,.imp h2{margin:0;font:800 24px/1.15 var(--f-display)}
+.dl-list{display:grid;gap:12px;flex:1;grid-auto-rows:1fr}
+.imp .sec{flex:1;margin:0;padding:20px 22px}
+.imp .sec>p:first-child{margin-top:0}
 .dl{display:grid;grid-template-columns:48px minmax(0,1fr) 40px;gap:14px;align-items:center;width:100%;text-align:left;padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:16px;color:inherit;font:inherit;cursor:pointer;transition:border-color .15s,transform .15s}
 .dl:hover{border-color:var(--accent);transform:translateY(-2px)}
 .dl:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -1337,13 +1340,13 @@ function pageIntro(){
   <div class="hero-h"><div class="page-h"><h1>Accueil</h1><div class="meta"><span class="pill">V0</span><span>Source : Figma V2.Design.System</span></div></div>
   <p class="lead">Yeitibook est la vitrine code du design system Yeita. Il reprend l’organisation du fichier Figma : trois familles, puis les pages, puis les composants.</p></div>
   <div class="res">
-   <div class="dls"><h2>Télécharger</h2>${dls}</div>
-   <section class="sec"><h2>📂 Importez-moi dans Figma</h2>
+   <div class="dls"><h2>Télécharger</h2><div class="dl-list">${dls}</div></div>
+   <div class="imp"><h2>Importer dans Figma</h2><section class="sec">
     <p>Importez ${xl(FIG_ICONS,'V2.Icons.Library')} &amp; ${xl(FIG_DS,'V2.Design.System')} dans chacun de vos fichiers.</p>
     <ol class="steps">
      <li><span>Dans l’onglet Assets, cliquez sur l’icon livre en haut à droite.</span></li>
      <li><span>Dans la fenêtre qui s’ouvre, cherchez les 2 librairies par leur nom, et cliquez sur Import. N’utilisez pas l’ancienne librairie (en rouge), elle sera supprimée.</span></li>
-     <li><span>Vous pouvez maintenant rechercher et utiliser les composants Yeita dans la barre de recherche de l’onglet Assets, en les drag &amp; droppant dans votre fichier.</span></li></ol></section>
+     <li><span>Vous pouvez maintenant rechercher et utiliser les composants Yeita dans la barre de recherche de l’onglet Assets, en les drag &amp; droppant dans votre fichier.</span></li></ol></section></div>
   </div>
   <h2 style="margin-top:40px">Explorer</h2>
   <div class="fcards">${cards}</div>
