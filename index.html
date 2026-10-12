@@ -295,6 +295,9 @@ a{color:inherit}
 .yi:active:has(>.yl-p)>.yl{visibility:hidden}.yi:active:has(>.yl-p)>.yl-p{visibility:visible}
 .yi.on>.yl{visibility:hidden!important}.yi.on>.yl-t{visibility:visible!important}
 .card .mono,.card code{overflow-wrap:anywhere}
+.ctable input,.ctable select{accent-color:var(--accent)}
+.ctable :focus{outline:none}.ctable :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.ctable select:focus,.ctable input[type=text]:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
 /* Sandbox Covers */
 .cv{max-width:1240px}
 .cv-tpls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 20px}
@@ -1090,7 +1093,8 @@ Object.values(GEN.sets).forEach(set=>{
   const vk=ctl.filter(x=>x.o);
   if(vk.length>=2&&vk[0].o.length*vk[1].o.length<=36) c.mx={r:[vk[0].k,vk[0].o],c:[vk[1].k,vk[1].o]};
   else if(vk.length) c.mx={r:[vk[0].k,['']],c:[vk[0].k,vk[0].o],single:true};
-  const isChars=x=>/letter|lettre|char/i.test(x.k)||x.o.every(o=>o.length<=1); /* une story par lettre ne sert à rien : les Controls suffisent */
+  const COLORS=/^(green|yellow|red|blue|white|black|purple|pink|orange|grey|gray|violet|vert|jaune|rouge|bleu|blanc|noir|ghost|brand|neutral)$/i;
+  const isChars=x=>/letter|lettre|char/i.test(x.k)||x.o.every(o=>o.length<=1)||x.o.filter(o=>COLORS.test(o)).length>=Math.max(3,x.o.length*.7); /* une story par lettre ou par couleur ne sert à rien : les Controls suffisent */ /* une story par lettre ne sert à rien : les Controls suffisent */
   const main=vk.filter(x=>!isChars(x)).sort((a,b)=>b.o.length-a.o.length)[0];
   c.st=[['Défaut',{}]].concat(main?main.o.filter(o=>o!==main.d).slice(0,7).map(o=>[o,{[main.k]:o}]):[]);
   if(vk.length>1){const bp=vk.find(x=>/breakpoint|device|taille|size/i.test(x.k)&&x!==main);if(bp)bp.o.filter(o=>o!==bp.d).slice(0,2).forEach(o=>c.st.push([o,{[bp.k]:o}]))}
@@ -1104,10 +1108,10 @@ function gStates(c){
   const toggle=/checkbox|radio|filter|toggle|switch/i.test(c.name);
   for(const x of c.ctl){ if(!x.o||!/state|status|[ée]tat/i.test(x.k))continue; const f=re=>x.o.find(o=>re.test(o));
     const h=f(/hover|survol/i),act=f(/^active$/i),fo0=f(/focus/i),pr=f(/press/i);
-    let p=pr||null,fo=fo0||null,t=null;
-    if(act){ if(toggle)t=act; else if(fo0&&!pr)p=act; else if(!fo0)fo=act }
+    let p=pr||null,fo=fo0||null,t=f(/^(checked|on|selected|coch[ée])$/i)||null;
+    if(act&&!t){ if(toggle)t=act; else if(fo0&&!pr)p=act; else if(!fo0)fo=act }
     if(!(h||p||fo||t))continue;
-    let rest=x.d; if(/hover|press|active|focus|disabled|click/i.test(rest))rest=x.o.find(o=>/default|rest|idle|enabled|normal|off/i.test(o))||rest;
+    let rest=x.d; if(/hover|press|active|focus|disabled|click|^checked$|^on$/i.test(rest))rest=x.o.find(o=>/default|rest|idle|enabled|normal|off|unchecked/i.test(o))||rest;
     r={k:x.k,rest,h,p,fo,t}; break }
   return c._is=r;
 }

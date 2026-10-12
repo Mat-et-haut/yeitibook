@@ -298,6 +298,9 @@ a{color:inherit}
 .yi:active:has(>.yl-p)>.yl{visibility:hidden}.yi:active:has(>.yl-p)>.yl-p{visibility:visible}
 .yi.on>.yl{visibility:hidden!important}.yi.on>.yl-t{visibility:visible!important}
 .card .mono,.card code{overflow-wrap:anywhere}
+.ctable input,.ctable select{accent-color:var(--accent)}
+.ctable :focus{outline:none}.ctable :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.ctable select:focus,.ctable input[type=text]:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
 /* Sandbox Covers */
 .cv{max-width:1240px}
 .cv-tpls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 20px}
