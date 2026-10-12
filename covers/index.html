@@ -359,8 +359,9 @@ a{color:inherit}
  .cv-grid{--cvh:max(460px,calc(100dvh - var(--cv-top,250px) - 16px));align-items:start}
  .cv-form{gap:10px;padding:16px 18px;align-content:start}
  .cv-form h2{font-size:16px}
- .cv-stage{position:sticky;top:16px;align-self:start;display:flex;flex-direction:column;align-items:center}
- .cv-canvas{width:min(100%,calc(var(--cvh) - 96px));max-width:none;margin:0}
+ .cv-stage{position:sticky;top:16px;align-self:start;justify-self:end;width:min(100%,calc(var(--cvh) - 96px));display:flex;flex-direction:column;align-items:stretch}
+ .cv-stage--wide{width:100%}
+ .cv-canvas{width:100%;max-width:none;margin:0}
  .cv-stage .cv-hint{margin-top:8px}
  .cv-actions{margin-top:10px}
 }
@@ -977,7 +978,7 @@ function lvRender(c,scale){
   /* titre : 3 lignes max */
   let size=48,lines;for(;size>=34;size-=2){x.font=`800 ${size}px ${BR}`;lines=cvWrap(x,LV.titre.trim()||LV_PH.titre,672);if(lines.length<=3)break}
   LV.cut=lines.length>3;if(LV.cut)lines=[lines[0],lines[1],cvFit(x,lines.slice(2).join(' '),672)];
-  const lh2=Math.round(size*1.2);x.fillStyle='#160f20';lines.forEach((l,i)=>x.fillText(l,453,210+i*lh2+lh2/2+2));
+  const lh2=Math.round(size*1.2),ty=178+(274-lines.length*lh2)/2;x.fillStyle='#160f20';lines.forEach((l,i)=>x.fillText(l,453,ty+i*lh2+lh2/2+2)); /* titre centré verticalement dans son bloc */
   /* bandeau du bas : date + logo */
   lvBadge(x,453,485,lvDateText(),LV_ICO.cal,!green);
   if(LV_IMG.logo)x.drawImage(LV_IMG.logo,1011,488,115,51);
@@ -1018,7 +1019,7 @@ function pageLive(){
      <div class="cv-cut"><button type="button" class="y-btn y-btn--secondary y-btn--sm" id="lvcut" ${LV.hostDefault||LV.hostCut?'hidden':''}>${ic('MagicWand',18)}<span>Détourer automatiquement</span></button>${LV.hostDefault?'':'<button type="button" class="cv-link" id="lvhostx">Remettre Raphaël</button>'}<span class="cv-hint" id="lvcutst" aria-live="polite"></span></div></div>
     <div class="cv-inline"><button type="button" class="cv-link" id="lvreset">Tout réinitialiser</button></div>
    </form>
-   <div class="cv-stage">
+   <div class="cv-stage cv-stage--wide">
     <div class="cv-canvas cv-canvas--wide" id="lvwrap"><canvas id="lvc" aria-label="Aperçu de la cover Live"></canvas></div>
     <p class="cv-hint">Glisse la photo de l’invité pour la recadrer, utilise le curseur Zoom pour l’agrandir.</p>
     <div class="cv-actions"><button type="button" class="y-btn y-btn--primary y-btn--md" id="lvexport">${ic('DownloadSimple')}<span>Exporter en PNG</span></button>
