@@ -1,6 +1,8 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Covers Yeita</title><meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234d25f7'/%3E%3Ctext x='16' y='22' font-size='17' font-family='Arial' font-weight='700' fill='white' text-anchor='middle'%3EY%3C/text%3E%3C/svg%3E">
+
+<title>Yeitibook</title>
 <style>
 /* Polices Yeita auto-hébergées (licence SIL OFL 1.1 pour les trois familles) */
 @font-face{font-family:"Apfel Grotezk";src:url(../fonts/ApfelGrotezk-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
@@ -324,6 +326,25 @@ a{color:inherit}
 .cv-canvas canvas.grab{cursor:grabbing}
 .cv-actions{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center;margin-top:14px}
 @media (max-width:900px){.cv-grid{grid-template-columns:minmax(0,1fr)}.cv-stage{position:static;order:-1}}
+/* Covers : tout l'outil tient dans l'écran (ordinateur) */
+.cv .page-h{margin:0}.cv .page-h h1{font-size:clamp(26px,3vw,34px);margin:0}
+.cv .page-h .meta{display:none}
+.cv-head{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:14px}
+.cv-head .lead{margin:4px 0 0;font-size:14px}
+.cv-head .cv-tpls{margin:0}
+.cv-tips{font-size:13px;color:var(--muted)}.cv-tips summary{cursor:pointer;font-weight:600;color:inherit}.cv-tips ul{margin:8px 0 0;padding-left:18px;display:grid;gap:6px}
+.cv-tpls{margin:0}
+.cv-tpl{padding:7px 14px}
+@media (min-width:901px){
+ .cv-grid{--cvh:calc(100dvh - var(--cv-top,250px) - 16px);align-items:stretch}
+ .cv-form{max-height:var(--cvh);overflow:auto;gap:10px;padding:16px 18px;align-content:start}
+ .cv-form h2{font-size:16px}
+ .cv-stage{position:static;display:flex;flex-direction:column;align-items:center;max-height:var(--cvh)}
+ .cv-canvas{width:min(100%,calc(var(--cvh) - 96px));max-width:none;margin:0}
+ .cv-stage .cv-hint{margin-top:8px}
+ .cv-actions{margin-top:10px}
+}
+
 /* Accueil */
 .home{max-width:1100px}
 .hero-h{padding:8px 0 4px}
@@ -643,6 +664,7 @@ p.gt{margin:0}
 /* @@end */
 
 </style>
+
 <style>
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--text,#160f20)}
@@ -650,7 +672,7 @@ body{margin:0;background:var(--bg);color:var(--text,#160f20)}
 .cv-top .brand{display:flex;align-items:center;gap:10px;font:800 18px/1 var(--f-display);color:inherit;text-decoration:none}
 .cv-top .brand i{width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;display:grid;place-items:center;font-style:normal;font-size:15px}
 .cv-top a.ds{font:600 13px/1 var(--f-body);color:var(--accent);text-decoration:none}
-#main{padding:28px 24px 60px;max-width:1240px;margin:0 auto}
+#main{padding:20px 24px 8px;max-width:1240px;margin:0 auto}
 @media (max-width:600px){#main{padding:20px 16px 48px}.cv-top{padding:12px 16px}}
 </style></head><body>
 <header class="cv-top"><span class="brand"><i>Y</i>Covers Yeita</span><a class="ds" href="../">Voir le design system</a></header>
@@ -801,9 +823,9 @@ function pageCovers(){
   const tpls=[['Podcast','Pause Produit · 800×800',1],['Live YouTube','1200×627',0],['Live Website','1109×748',0]];
   const f=(id,l,v,ph,area)=>`<label class="cv-f"><span>${l}</span>${area?`<textarea id="${id}" rows="2" placeholder="${ph}">${esc(v)}</textarea>`:`<input id="${id}" type="text" value="${esc(v)}" placeholder="${ph}" autocomplete="off">`}</label>`;
   main.innerHTML=`<div class="cv">
-  <div class="page-h"><h1>Sandbox Covers</h1><div class="meta"><span class="pill">Bêta</span><span>Covers / Sandbox</span></div></div>
-  <p class="lead">Remplis les champs, dépose une photo détourée, exporte. La mise en page, les couleurs et les polices viennent du DS : rien à régler.</p>
-  <div class="cv-tpls" role="tablist">${tpls.map(([n,d,on])=>`<button type="button" role="tab" class="cv-tpl" aria-selected="${!!on}" ${on?'':'disabled'}><b>${n}</b><span>${on?d:'Bientôt'}</span></button>`).join('')}</div>
+  <div class="cv-head"><div><div class="page-h"><h1>Créer une cover</h1></div>
+  <p class="lead">Remplis, ajoute une photo, exporte. Mise en page et polices viennent du DS.</p></div>
+  <div class="cv-tpls" role="tablist">${tpls.map(([n,d,on])=>`<button type="button" role="tab" class="cv-tpl" aria-selected="${!!on}" ${on?'':'disabled'}><b>${n}</b><span>${on?d:'Bientôt'}</span></button>`).join('')}</div></div>
   <div class="cv-grid">
    <form class="cv-form" onsubmit="return false">
     <h2>Invité</h2>
@@ -819,6 +841,10 @@ function pageCovers(){
      <button type="button" class="cv-link" id="cvuncut" ${CV.cutDone?'':'hidden'}>Revenir à la photo d’origine</button><span class="cv-hint" id="cvcutst" aria-live="polite"></span></div>
     <label class="cv-f"><span>Zoom</span><input id="cvzoom" type="range" min="50" max="220" value="${Math.round(CV.zoom*100)}"></label>
     <div class="cv-inline"><label class="cv-check"><input id="cvbw" type="checkbox" ${CV.bw?'checked':''}> Noir et blanc</label><button type="button" class="cv-link" id="cvrecenter">Recentrer</button><button type="button" class="cv-link" id="cvreset">Tout réinitialiser</button></div>
+    <details class="cv-tips"><summary>Conseils photo</summary><ul>
+   <li><b>Détourage :</b> le bouton « Détourer automatiquement » marche bien sur un buste avec un fond uni. Sur des cheveux volumineux, le contour reste approximatif : dans ce cas, détoure sur Mac (clic droit, Actions rapides, Supprimer l’arrière-plan) ou avec remove.bg.</li>
+   <li><b>Photo idéale :</b> buste cadré à la taille, fond retiré, au moins 1000 px de haut.</li>
+   <li>Les textes et réglages sont mémorisés dans ce navigateur. La photo ne quitte jamais ton ordinateur.</li></ul></details>
    </form>
    <div class="cv-stage">
     <div class="cv-canvas" id="cvwrap"><canvas id="cvc" aria-label="Aperçu de la cover"></canvas></div>
@@ -827,10 +853,8 @@ function pageCovers(){
      <label class="cv-check"><input id="cvhd" type="checkbox" checked> Haute définition (1600 px)</label></div>
    </div>
   </div>
-  <div class="card notes" style="margin-top:24px"><ul>
-   <li><b>Détourage :</b> le bouton « Détourer automatiquement » marche bien sur un buste avec un fond uni. Sur des cheveux volumineux, le contour reste approximatif : dans ce cas, détoure sur Mac (clic droit, Actions rapides, Supprimer l’arrière-plan) ou avec remove.bg.</li>
-   <li><b>Photo idéale :</b> buste cadré à la taille, fond retiré, au moins 1000 px de haut.</li>
-   <li>Les textes et réglages sont mémorisés dans ce navigateur. La photo ne quitte jamais ton ordinateur.</li></ul></div></div>`;
+  </div>`;
+  const cvFitTop=()=>{const g=$('.cv-grid');if(g)g.style.setProperty('--cv-top',Math.round(g.getBoundingClientRect().top+window.scrollY)+'px')};cvFitTop();addEventListener('resize',cvFitTop);
   cvCanvas=$('#cvc');
   const bind=(id,k)=>{$('#'+id).addEventListener('input',e=>{CV[k]=e.target.value;cvSave();cvDraw()})};
   bind('cvnom','nom');bind('cvjob','job');bind('cvco','company');bind('cvtitre','titre');

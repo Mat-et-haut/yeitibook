@@ -323,6 +323,25 @@ a{color:inherit}
 .cv-canvas canvas.grab{cursor:grabbing}
 .cv-actions{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center;margin-top:14px}
 @media (max-width:900px){.cv-grid{grid-template-columns:minmax(0,1fr)}.cv-stage{position:static;order:-1}}
+/* Covers : tout l'outil tient dans l'écran (ordinateur) */
+.cv .page-h{margin:0}.cv .page-h h1{font-size:clamp(26px,3vw,34px);margin:0}
+.cv .page-h .meta{display:none}
+.cv-head{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:14px}
+.cv-head .lead{margin:4px 0 0;font-size:14px}
+.cv-head .cv-tpls{margin:0}
+.cv-tips{font-size:13px;color:var(--muted)}.cv-tips summary{cursor:pointer;font-weight:600;color:inherit}.cv-tips ul{margin:8px 0 0;padding-left:18px;display:grid;gap:6px}
+.cv-tpls{margin:0}
+.cv-tpl{padding:7px 14px}
+@media (min-width:901px){
+ .cv-grid{--cvh:calc(100dvh - var(--cv-top,250px) - 16px);align-items:stretch}
+ .cv-form{max-height:var(--cvh);overflow:auto;gap:10px;padding:16px 18px;align-content:start}
+ .cv-form h2{font-size:16px}
+ .cv-stage{position:static;display:flex;flex-direction:column;align-items:center;max-height:var(--cvh)}
+ .cv-canvas{width:min(100%,calc(var(--cvh) - 96px));max-width:none;margin:0}
+ .cv-stage .cv-hint{margin-top:8px}
+ .cv-actions{margin-top:10px}
+}
+
 /* Accueil */
 .home{max-width:1100px}
 .hero-h{padding:8px 0 4px}
