@@ -288,6 +288,13 @@ a{color:inherit}
 .tb-cta[aria-current]{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
 @media (max-width:560px){.tb-cta span{display:none}.tb-cta{padding:0 10px}}
 .ylogo-l{color:#160f20;text-decoration:none;display:block}.ylogo{display:block;overflow:visible;width:auto}.ylogo text{font:600 36px/1 'Bricolage Grotesque',system-ui,sans-serif;font-variation-settings:'opsz' 14}
+.yi{display:grid;cursor:pointer;outline:none}.yi>.yl{grid-area:1/1;visibility:hidden;min-width:0}.yi>.yl-rest{visibility:visible}
+.yi:focus-visible{outline:2px dashed var(--accent);outline-offset:6px;border-radius:4px}
+.yi:focus-visible:not(:hover):has(>.yl-fo)>.yl{visibility:hidden}.yi:focus-visible:not(:hover):has(>.yl-fo)>.yl-fo{visibility:visible}
+.yi:hover:has(>.yl-h)>.yl{visibility:hidden}.yi:hover:has(>.yl-h)>.yl-h{visibility:visible}
+.yi:active:has(>.yl-p)>.yl{visibility:hidden}.yi:active:has(>.yl-p)>.yl-p{visibility:visible}
+.yi.on>.yl{visibility:hidden!important}.yi.on>.yl-t{visibility:visible!important}
+.card .mono,.card code{overflow-wrap:anywhere}
 /* Sandbox Covers */
 .cv{max-width:1240px}
 .cv-tpls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 20px}
@@ -1083,12 +1090,42 @@ Object.values(GEN.sets).forEach(set=>{
   const vk=ctl.filter(x=>x.o);
   if(vk.length>=2&&vk[0].o.length*vk[1].o.length<=36) c.mx={r:[vk[0].k,vk[0].o],c:[vk[1].k,vk[1].o]};
   else if(vk.length) c.mx={r:[vk[0].k,['']],c:[vk[0].k,vk[0].o],single:true};
-  const main=vk.slice().sort((a,b)=>b.o.length-a.o.length)[0];
+  const isChars=x=>/letter|lettre|char/i.test(x.k)||x.o.every(o=>o.length<=1); /* une story par lettre ne sert à rien : les Controls suffisent */
+  const main=vk.filter(x=>!isChars(x)).sort((a,b)=>b.o.length-a.o.length)[0];
   c.st=[['Défaut',{}]].concat(main?main.o.filter(o=>o!==main.d).slice(0,7).map(o=>[o,{[main.k]:o}]):[]);
   if(vk.length>1){const bp=vk.find(x=>/breakpoint|device|taille|size/i.test(x.k)&&x!==main);if(bp)bp.o.filter(o=>o!==bp.d).slice(0,2).forEach(o=>c.st.push([o,{[bp.k]:o}]))}
+  {const S=gStates(c);if(S)c.notes.splice(1,0,'Interactif : '+[S.h&&'survol → « '+S.h+' »',S.p&&'clic → « '+S.p+' »',S.t&&'clic pour cocher → « '+S.t+' »',S.fo&&'focus clavier → « '+S.fo+' »'].filter(Boolean).join(', ')+'. Actif quand la propriété '+cleanKey(S.k)+' vaut « '+S.rest+' ».')}
   R[id]=p=>genRender(set,toP(set,p));
   C.push(c); GENC.push(c);
 });
+/* États interactifs des composants générés : les variantes Figma Hover / Pressed / Focus deviennent de vrais comportements */
+function gStates(c){
+  if(!c.gen)return null; if(c._is!==undefined)return c._is; let r=null;
+  const toggle=/checkbox|radio|filter|toggle|switch/i.test(c.name);
+  for(const x of c.ctl){ if(!x.o||!/state|status|[ée]tat/i.test(x.k))continue; const f=re=>x.o.find(o=>re.test(o));
+    const h=f(/hover|survol/i),act=f(/^active$/i),fo0=f(/focus/i),pr=f(/press/i);
+    let p=pr||null,fo=fo0||null,t=null;
+    if(act){ if(toggle)t=act; else if(fo0&&!pr)p=act; else if(!fo0)fo=act }
+    if(!(h||p||fo||t))continue;
+    let rest=x.d; if(/hover|press|active|focus|disabled|click/i.test(rest))rest=x.o.find(o=>/default|rest|idle|enabled|normal|off/i.test(o))||rest;
+    r={k:x.k,rest,h,p,fo,t}; break }
+  return c._is=r;
+}
+function gInteract(el,c,getQ){
+  /* superpose les variantes d'état et laisse le CSS (:hover, :active, :focus-visible) choisir laquelle montrer */
+  const S=gStates(c); if(!el||!S)return; const q=getQ();
+  if(q[S.k]!==S.rest){el.classList.remove('yi','on');el.removeAttribute('tabindex');return}
+  const html=v=>{const qq={...q};if(v)qq[S.k]=v;return c.wrap?c.wrap(R[c.id](qq)):R[c.id](qq)};
+  const L=[['rest',null],['h',S.h],['p',S.p],['fo',S.fo],['t',S.t]].filter(([k,v])=>k==='rest'||v);
+  el.innerHTML=L.map(([k,v])=>`<div class="yl yl-${k}"${k==='rest'?'':' aria-hidden="true"'}>${html(v)}</div>`).join('');
+  el.classList.add('yi'); el.tabIndex=0;
+  if(!el._yi){el._yi=1;
+    const tog=()=>{if(!el.querySelector('.yl-t'))return;el.classList.toggle('on');el.setAttribute('aria-checked',el.classList.contains('on'))};
+    el.addEventListener('click',tog);
+    el.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){if(el.querySelector('.yl-t')){e.preventDefault();tog()}}});
+  }
+  if(S.t){el.setAttribute('role','checkbox');el.setAttribute('aria-checked',el.classList.contains('on'))}else el.removeAttribute('role');
+}
 const BYID=Object.fromEntries(C.map(c=>[c.id,c]));
 const defaults=c=>Object.fromEntries(c.ctl.map(x=>[x.k,x.d]));
 const STATE={}; C.forEach(c=>STATE[c.id]=defaults(c));
@@ -1491,7 +1528,7 @@ function docsPage(c){
   <h2>Notes et écarts</h2><div class="card">${notesHTML(c)}</div>`;
   const draw=()=>{
     const cur=STATE[c.id], f=$('#dprev .fit');
-    $('.fit-in',f).innerHTML=c.wrap?c.wrap(R[c.id](cur)):R[c.id](cur); f.dataset.w=c.w?c.w(cur):0;
+    $('.fit-in',f).innerHTML=c.wrap?c.wrap(R[c.id](cur)):R[c.id](cur); gInteract($('.fit-in',f),c,()=>STATE[c.id]); f.dataset.w=c.w?c.w(cur):0;
     $('#dprev').className='dbox bg-'+((BG[c.id]||'auto')==='auto'?autoBg(c,cur):BG[c.id]);
     applyFit(); if(c.mx) $('#dmx').innerHTML=matrixHTML(c); drawDocCode();
   };
@@ -1504,7 +1541,7 @@ function docsPage(c){
   };
   STORIES[c.id].forEach(s=>{
     const box=$(`.dbox[data-s="${s.id}"]`,host), q={...defaults(c),...s.a}, f=$('.fit',box);
-    $('.fit-in',f).innerHTML=c.wrap?c.wrap(R[c.id](q)):R[c.id](q); f.dataset.w=c.w?c.w(q):0; box.className='dbox bg-'+autoBg(c,q);
+    $('.fit-in',f).innerHTML=c.wrap?c.wrap(R[c.id](q)):R[c.id](q); gInteract($('.fit-in',f),c,()=>q); f.dataset.w=c.w?c.w(q):0; box.className='dbox bg-'+autoBg(c,q);
   });
   controlsTable(c,$('#dctl'),draw); draw(); applyFit();
   ro.disconnect(); ro.observe(host);
@@ -1526,7 +1563,7 @@ function pageComponent(c,story){
   };
   function update(){
     const cur=STATE[c.id], fit=$('#fit');
-    $('#fitin').innerHTML=c.wrap?c.wrap(R[c.id](cur)):R[c.id](cur);
+    $('#fitin').innerHTML=c.wrap?c.wrap(R[c.id](cur)):R[c.id](cur); gInteract($('#fitin'),c,()=>STATE[c.id]);
     fit.dataset.w=c.w?c.w(cur):0; setBg(c); applyFit(); if(PTAB!=='controls') drawPane(false);
   }
   if(!PCLOSED){

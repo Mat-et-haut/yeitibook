@@ -291,6 +291,13 @@ a{color:inherit}
 .tb-cta[aria-current]{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
 @media (max-width:560px){.tb-cta span{display:none}.tb-cta{padding:0 10px}}
 .ylogo-l{color:#160f20;text-decoration:none;display:block}.ylogo{display:block;overflow:visible;width:auto}.ylogo text{font:600 36px/1 'Bricolage Grotesque',system-ui,sans-serif;font-variation-settings:'opsz' 14}
+.yi{display:grid;cursor:pointer;outline:none}.yi>.yl{grid-area:1/1;visibility:hidden;min-width:0}.yi>.yl-rest{visibility:visible}
+.yi:focus-visible{outline:2px dashed var(--accent);outline-offset:6px;border-radius:4px}
+.yi:focus-visible:not(:hover):has(>.yl-fo)>.yl{visibility:hidden}.yi:focus-visible:not(:hover):has(>.yl-fo)>.yl-fo{visibility:visible}
+.yi:hover:has(>.yl-h)>.yl{visibility:hidden}.yi:hover:has(>.yl-h)>.yl-h{visibility:visible}
+.yi:active:has(>.yl-p)>.yl{visibility:hidden}.yi:active:has(>.yl-p)>.yl-p{visibility:visible}
+.yi.on>.yl{visibility:hidden!important}.yi.on>.yl-t{visibility:visible!important}
+.card .mono,.card code{overflow-wrap:anywhere}
 /* Sandbox Covers */
 .cv{max-width:1240px}
 .cv-tpls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 20px}
