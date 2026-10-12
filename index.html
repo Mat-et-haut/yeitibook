@@ -341,10 +341,10 @@ a{color:inherit}
 .cv-tpls{margin:0}
 .cv-tpl{padding:7px 14px}
 @media (min-width:901px){
- .cv-grid{--cvh:max(460px,calc(100dvh - var(--cv-top,250px) - 16px));align-items:stretch}
- .cv-form{max-height:var(--cvh);overflow:auto;gap:10px;padding:16px 18px;align-content:start}
+ .cv-grid{--cvh:max(460px,calc(100dvh - var(--cv-top,250px) - 16px));align-items:start}
+ .cv-form{gap:10px;padding:16px 18px;align-content:start}
  .cv-form h2{font-size:16px}
- .cv-stage{position:static;display:flex;flex-direction:column;align-items:center;max-height:var(--cvh)}
+ .cv-stage{position:sticky;top:16px;align-self:start;display:flex;flex-direction:column;align-items:center}
  .cv-canvas{width:min(100%,calc(var(--cvh) - 96px));max-width:none;margin:0}
  .cv-stage .cv-hint{margin-top:8px}
  .cv-actions{margin-top:10px}
