@@ -302,6 +302,15 @@ a{color:inherit}
 .ctable :focus{outline:none}.ctable :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
 .ctable select:focus,.ctable input[type=text]:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
 /* Sandbox Covers */
+.cv-sws{display:flex;flex-wrap:wrap;gap:8px}
+.cv-sw{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;font-size:11px;color:var(--muted)}
+.cv-sw input{position:absolute;opacity:0;pointer-events:none}
+.cv-sw i{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);display:block}
+.cv-sw input:checked+i{outline:2px solid var(--accent);outline-offset:2px}
+.cv-sw input:focus-visible+i{outline:2px dashed var(--accent);outline-offset:2px}
+.cv-drop--sm{padding:10px 12px}
+.cv-canvas--wide{width:100%!important;max-width:none!important}
+
 .cv{max-width:1240px}
 .cv-tpls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 20px}
 .cv-tpl{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 16px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:inherit;font:inherit;cursor:pointer}
@@ -834,13 +843,14 @@ async function cvBoot(){
   try{await Promise.all(['800 44px','700 28px','700 18px'].map(f=>document.fonts.load(f+' "Bricolage Grotesque"')))}catch(e){}
     cvDraw();
 }
+let CV_TPL=(()=>{try{return localStorage.getItem('yb-covers-tpl')||'podcast'}catch(e){return 'podcast'}})();
+function cvHead(){const t=[['podcast','Podcast','Pause Produit · 800×800'],['live','Live','LinkedIn · 1200×630']];
+  return `<div class="cv-head"><div><div class="page-h"><h1>Créer une cover</h1></div><p class="lead">Remplis, ajoute une photo, exporte. Mise en page et polices viennent du DS.</p></div><div class="cv-tpls" role="tablist">${t.map(([k,n,d])=>`<button type="button" role="tab" class="cv-tpl" data-tpl="${k}" aria-selected="${CV_TPL===k}"><b>${n}</b><span>${d}</span></button>`).join('')}</div></div>`}
+function cvBindHead(){$$('.cv-tpl[data-tpl]').forEach(b=>b.onclick=()=>{if(CV_TPL===b.dataset.tpl)return;CV_TPL=b.dataset.tpl;try{localStorage.setItem('yb-covers-tpl',CV_TPL)}catch(e){}pageCovers()})}
 function pageCovers(){
-  const tpls=[['Podcast','Pause Produit · 800×800',1],['Live YouTube','1200×627',0],['Live Website','1109×748',0]];
+  if(CV_TPL==='live'){pageLive();return}
   const f=(id,l,v,ph,area)=>`<label class="cv-f"><span>${l}</span>${area?`<textarea id="${id}" rows="2" placeholder="${ph}">${esc(v)}</textarea>`:`<input id="${id}" type="text" value="${esc(v)}" placeholder="${ph}" autocomplete="off">`}</label>`;
-  main.innerHTML=`<div class="cv">
-  <div class="cv-head"><div><div class="page-h"><h1>Créer une cover</h1></div>
-  <p class="lead">Remplis, ajoute une photo, exporte. Mise en page et polices viennent du DS.</p></div>
-  <div class="cv-tpls" role="tablist">${tpls.map(([n,d,on])=>`<button type="button" role="tab" class="cv-tpl" aria-selected="${!!on}" ${on?'':'disabled'}><b>${n}</b><span>${on?d:'Bientôt'}</span></button>`).join('')}</div></div>
+  main.innerHTML=`<div class="cv">${cvHead()}
   <div class="cv-grid">
    <form class="cv-form" onsubmit="return false">
     <h2>Invité</h2>
@@ -869,6 +879,7 @@ function pageCovers(){
    </div>
   </div>
   </div>`;
+  cvBindHead();
   const cvFitTop=()=>{const g=$('.cv-grid');if(g)g.style.setProperty('--cv-top',Math.round(g.getBoundingClientRect().top+window.scrollY)+'px')};cvFitTop();addEventListener('resize',cvFitTop);
   cvCanvas=$('#cvc');
   const bind=(id,k)=>{$('#'+id).addEventListener('input',e=>{CV[k]=e.target.value;cvSave();cvDraw()})};
@@ -893,6 +904,154 @@ function pageCovers(){
       const blob=await new Promise(r=>c.toBlob(r,'image/png'));const n='pause-produit-'+(slug((CV.nom||'cover').normalize('NFD').replace(/[̀-ͯ]/g,''))||'cover')+'.png';
       await saveFile(n,blob)}catch(e){toast('Export impossible')}finally{b.disabled=false}};
   cvBoot();
+}
+/* ---------- Cover Live (LinkedIn 1200×630), gabarit Figma « Thumbail_live » ---------- */
+const LV_SVG={pattern:`<svg width="744" height="744" viewBox="0 0 744 744" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M758.9 663.9C757.8 663.8 756.8 663.7 755.7 663.6L755.6 664.2C625.9 665.5 561.9 663.2 479.9 642.3C475.3 654.3 471.1 664.1 467.9 670.9L411.6 645C414.2 639.4 417.7 631.4 421.5 621.5C400.9 611.5 382.9 598.7 368.5 582.4C347.4 558.3 336.2 528.6 335 494C332.9 433.5 370.4 392 418.3 390.4C466.3 388.7 506.4 427.7 508.5 488.1C509.6 522.2 504.9 554.8 498.2 583.1C518.6 588.1 541.7 591.9 567.4 594.8C551.6 576.3 541.7 552.8 540.7 524.3C539.5 488.9 552.5 460.5 573.8 438.9C594.2 418.4 621.3 405 648 395.9C700.4 377.9 764.1 372.2 798.5 366.9L807.9 428.2C767.3 434.5 713.6 438.9 668.1 454.5C645.8 462.2 628.8 471.6 617.9 482.6C607.8 492.7 602.1 504.8 602.7 522.2C603.3 539.5 609.8 551.2 620.5 560.6C632.1 570.9 649.7 579.1 672.5 585.2C718.9 597.8 723.2 598.6 764.2 602.1L758.9 663.9ZM446.5 490.2C446 473.3 440.6 463.8 436 459C431.3 454.1 425.6 452.1 420.4 452.3C415.2 452.5 409.7 454.8 405.4 460C401 465.2 396.4 474.9 396.9 491.9C397.7 513.6 404.3 529.2 415.1 541.5C421.3 548.5 429.3 555 439.6 561C444.4 538.9 447.3 514.7 446.5 490.2Z" stroke="COLOR" stroke-width="3"/><path fill-rule="evenodd" clip-rule="evenodd" d="M292.4 103.3C293.1 104.1 293.9 104.8 294.7 105.6L294.3 106C379.1 204.1 456 287.8 525.9 335.5C519.9 346.9 515.4 356.5 512.4 363.3L569.1 388.5C571.6 382.9 575.3 375 580.1 365.6C601.3 374.3 622.8 379.4 644.5 379.4C676.5 379.3 706.3 368.1 733 346C779.7 307.6 786.1 252 755.6 215C725.1 177.9 669.3 173.6 622.6 212.1C596.3 233.7 575 258.9 558.2 282.6C540.9 270.6 522.8 255.8 503.7 238.5C528 238 552.1 230 574.2 211.8C601.5 189.3 614.3 160.8 616.3 130.5C618.2 101.6 610.3 72.5 599.5 46.5C578.4 -4.8 540.5 -56.4 521.7 -85.6L469.5 -52.2C491.7 -17.6 523.9 25.7 542.3 70.1C551.3 91.9 555.5 110.9 554.4 126.4C553.5 140.6 548.2 152.9 534.8 163.9C521.4 174.9 508.3 177.8 494.2 176C478.7 174.1 461 166.3 441.3 153.3C401.2 126.8 364.9 86.9 335.2 58.5L292.4 103.3ZM662.1 259.9C675.1 249.1 685.7 246.9 692.4 247.1C699.3 247.4 704.4 250.4 707.7 254.4C711 258.4 712.9 264.1 711.9 270.8C710.9 277.4 706.7 287.4 693.6 298.2C676.9 312 660.8 317.4 644.4 317.4C635.1 317.4 624.8 315.7 613.5 311.9C627 293.7 643.2 275.5 662.1 259.9Z" stroke="COLOR" stroke-width="3"/><path d="M8.3 110.4C14.5 110.7 23.2 110.9 33.8 110.7C35.4 87.9 40.5 66.4 50.2 47C64.6 18.4 88 -3.2 119.7 -17.2C174.9 -41.8 227.5 -22.7 247 21.2C266.4 65.1 245.4 116.9 190.1 141.4C159 155.3 126.9 163.1 98.2 167.5C101.2 188.3 106.3 211.2 113.3 236C124.5 214.4 142.5 196.5 168.7 184.9C201 170.5 232.2 171.9 260.2 183.6C286.9 194.8 309.4 214.9 327.9 236.2C364.2 278 393.4 335 411.2 364.9L357.9 396.6C336.8 361.3 312.6 313.1 281 276.8C265.6 259 250.5 246.8 236.2 240.8C223.1 235.3 209.7 234.5 193.8 241.5C178 248.6 169.6 259 164.8 272.4C159.7 287.1 158.7 306.5 161.5 329.9C167.3 377.6 186.7 427.9 198.8 467.2L139.5 485.4C139.2 484.4 138.9 483.4 138.6 482.4L138 482.6C88.2 362.7 47.8 256.6 36.4 172.7C23.5 173 12.9 172.7 5.5 172.3C-85.8 172.3 -111.6 98 -99.2 35.3C-84.3 39.4 -60.8 42.2 -39.7 45.2C-49.6 104.9 -12.4 110.7 8.3 110.7M164.9 84.8C180.4 77.9 187.2 69.4 189.9 63.3C192.7 57.1 192.4 51.1 190.3 46.4C188.2 41.6 184 37.4 177.5 35.3C171.1 33.2 160.3 32.6 144.8 39.4C125 48.2 113 60.2 105.6 74.8C101.5 83.2 98.4 93.1 96.7 104.9C119 101 142.6 94.7 164.9 84.8Z" stroke="COLOR" stroke-width="3"/><path fill-rule="evenodd" clip-rule="evenodd" d="M136 640.4C122.5 650.7 111.9 652.5 105.2 652C98.4 651.5 93.3 648.3 90.2 644.2C87 640 85.3 634.3 86.6 627.6C87.8 621 92.5 611.2 105.9 601C123.2 587.8 139.4 583 155.8 583.6C165.1 584 175.3 586.1 186.5 590.3C172.3 607.9 155.5 625.5 136 640.4Z" stroke="COLOR" stroke-width="3"/></svg>`,logo:`<svg width="115" height="51" viewBox="0 -12 115 51" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M25 0.6C25 0.7 24.9 0.8 24.9 0.9L25 0.9C24.7 11.3 24.2 20.5 22.3 27C23.3 27.4 24.1 27.8 24.6 28.1L22.4 32.5C21.9 32.3 21.3 32 20.5 31.7C19.6 33.3 18.6 34.7 17.2 35.8C15.2 37.5 12.8 38.3 10 38.3C5.1 38.3 1.9 35.2 1.9 31.3C1.9 27.4 5.1 24.3 10 24.3C12.7 24.3 15.3 24.8 17.6 25.4C18.1 23.8 18.4 21.9 18.7 19.8C17.2 21.1 15.3 21.8 13 21.8C10.1 21.8 7.9 20.7 6.2 18.9C4.6 17.2 3.6 15 2.9 12.8C1.6 8.5 1.3 3.4 1 0.6L6 0C6.4 3.3 6.6 7.6 7.7 11.3C8.3 13.2 9 14.6 9.8 15.5C10.6 16.3 11.6 16.8 13 16.8C14.4 16.8 15.3 16.3 16.1 15.5C17 14.6 17.7 13.2 18.3 11.3C19.4 7.6 19.6 3.3 20 0L25 0.6ZM10 29.3C8.6 29.3 7.8 29.7 7.4 30.1C7 30.4 6.9 30.9 6.9 31.3C6.9 31.7 7 32.2 7.4 32.5C7.8 32.9 8.6 33.3 10 33.3C11.7 33.3 13 32.8 14 32C14.6 31.5 15.2 30.9 15.7 30C13.9 29.6 12 29.3 10 29.3Z" fill="#3419AD"/><path fill-rule="evenodd" clip-rule="evenodd" d="M41 1.4C46.1 0.1 50.4 2.3 51.5 6.2C52 8.1 51.7 10.2 50.5 12C49.3 13.7 47.4 15 44.9 15.6C42.1 16.4 38.7 16.3 35.8 16C36.3 19 38.8 20.8 41.8 21C43.3 21.1 46.1 20.9 49.4 20.6L50 25.6C46.6 25.9 43.5 26.1 41.6 26C36.2 25.7 30.9 21.8 30.7 15.4C29.6 15.1 28.6 14.9 28 14.7L29.4 9.9C29.9 10 30.6 10.2 31.3 10.4C31.8 8.7 32.6 7.1 33.8 5.7C35.5 3.6 37.9 2.2 41 1.4ZM46.7 7.6C46.5 6.9 45.4 5.4 42.2 6.2C40.1 6.8 38.6 7.8 37.6 8.9C37.1 9.5 36.7 10.3 36.4 11.1C39 11.3 41.6 11.3 43.6 10.8C45.2 10.4 46 9.7 46.4 9.1C46.8 8.6 46.8 8 46.7 7.6Z" fill="#3419AD"/><path d="M61.5 8.1C61.8 15 62.2 20.8 63 25.2L58.1 26.2C57.2 21.3 56.8 15.2 56.5 8.3L61.5 8.1Z" fill="#3419AD"/><path d="M59 -1.5C60.7 -1.5 62 -0.2 62 1.5C62 3.2 60.7 4.5 59 4.5C57.3 4.5 56 3.2 56 1.5C56 -0.2 57.3 -1.5 59 -1.5Z" fill="#3419AD"/><path fill-rule="evenodd" clip-rule="evenodd" d="M73.3 -11.5C73.4 -7.9 73.5 -4.6 73.6 -1.5C77.2 -1.6 80.2 -1.9 82.6 -2.2L83.4 2.7C80.8 3.1 77.5 3.4 73.9 3.5C74.2 7.3 74.6 10.6 75.2 13.4C75.3 13.5 75.3 13.7 75.3 13.8C77 13.4 78.8 13 80.6 13C84.9 13 87.3 16.3 87.4 19.5C87.4 21.1 86.9 22.7 85.7 24C84.5 25.3 82.7 26 80.6 26C77.7 26 75.4 24.8 73.7 22.6C73.2 21.9 72.7 21.1 72.3 20.3C71.4 20.6 70.7 21 70.2 21.3L67.9 16.8C68.5 16.5 69.4 16 70.6 15.5C70.5 15.2 70.4 14.8 70.3 14.5C69.7 11.4 69.2 7.8 68.9 3.7C68 3.7 67 3.7 66.1 3.7L66 -1.3C66.9 -1.3 67.8 -1.3 68.6 -1.3C68.5 -4.5 68.4 -7.9 68.3 -11.4L73.3 -11.5ZM80.6 18C79.4 18 78.2 18.2 77 18.5C77.2 18.9 77.4 19.2 77.7 19.5C78.5 20.6 79.4 21 80.6 21C81.5 21 81.9 20.8 82.1 20.6C82.3 20.4 82.4 20 82.4 19.6C82.4 19.2 82.2 18.8 82 18.5C81.7 18.3 81.3 18 80.6 18Z" fill="#3419AD"/><path fill-rule="evenodd" clip-rule="evenodd" d="M101 1C103.5 1 105.7 1.6 107.4 2.9C109.1 4.3 110.2 6.2 110.9 8.2C111.6 10.3 112.2 12.8 112.7 15.5C113.2 18.3 113.7 21.4 114.4 25L109.6 26C109.2 24.3 108.9 22.6 108.6 21.1C107.9 22 107.2 22.8 106.3 23.5C104.3 25.2 101.9 26 99.1 26C94.2 26 91 22.9 91 19C91 15.1 94.2 12 99.1 12C102 12 104.8 12.5 107.1 13.2C106.8 11.9 106.5 10.8 106.2 9.9C105.6 8.3 105 7.4 104.3 6.9C103.7 6.4 102.8 6 101 6C98.7 6 97.7 6.6 97 7.5L93.1 4.5C94.9 2.1 97.6 1 101 1ZM99.1 17C97.8 17 97 17.4 96.6 17.8C96.2 18.1 96 18.6 96 19C96 19.4 96.2 19.9 96.6 20.2C97 20.6 97.8 21 99.1 21C100.9 21 102.1 20.5 103.2 19.7C103.8 19.2 104.3 18.6 104.8 17.7C103 17.3 101.1 17 99.1 17Z" fill="#3419AD"/></svg>`};
+const LV_ICO={play:'M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm48.24-94.78-64-40A8,8,0,0,0,100,88v80a8,8,0,0,0,12.24,6.78l64-40a8,8,0,0,0,0-13.56ZM116,153.57V102.43L156.91,128Z',cal:'M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z'};
+const LV_STYLES={Vert:['#6de5a0','#ebf893',1],Bleu:['#4d25f7','#ebf893',0],Jaune:['#ebf893','#4d25f7',0],Rouge:['#fe7b98','#ebf893',0],Noir:['#160f20','#ebf893',0],Blanc:['#fffdf9','#fe7b98',0]};
+const LV_DEF={style:'Vert',titre:'',date:'',heure:'12:00',nom:'',poste:'',host:'Raphaël',logoBlack:true,zoom:1,dx:0,dy:0};
+const LV_PH={titre:'Mes metrics partent en live : cas pratique du KPI Tree',nom:'Prénom Nom',poste:'Lead Data PM | ex-CPO',date:'Vendredi 22 novembre à 12h'};
+const LV={...LV_DEF,photo:null,logoRaw:null,logo:null,hostImg:null,hostOrig:null,hostDefault:true,hostCut:false};
+try{const s=JSON.parse(localStorage.getItem('yb-covers-live')||'null');if(s)['style','titre','date','heure','nom','poste','host','logoBlack'].forEach(k=>{if(k in s)LV[k]=s[k]})}catch(e){}
+const lvSave=()=>{try{localStorage.setItem('yb-covers-live',JSON.stringify({style:LV.style,titre:LV.titre,date:LV.date,heure:LV.heure,nom:LV.nom,poste:LV.poste,host:LV.host,logoBlack:LV.logoBlack}))}catch(e){}};
+const LV_IMG={pat:{}};
+const AP='"Apfel Grotezk",system-ui,sans-serif',BR='"Bricolage Grotesque",system-ui,sans-serif';
+function lvDateText(){
+  if(!LV.date)return LV_PH.date;
+  const [y,m,d]=LV.date.split('-').map(Number);const dt=new Date(y,m-1,d);
+  let t=dt.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  if(LV.heure){const [h,mi]=LV.heure.split(':');t+=' à '+(+h)+'h'+(mi&&mi!=='00'?mi:'')}
+  return t;
+}
+/* logo entreprise en noir : garde la transparence, ou retire le fond clair si le fichier n'en a pas */
+function lvInk(img,black){
+  const w=img.naturalWidth||img.width,h=img.naturalHeight||img.height,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.drawImage(img,0,0);
+  if(!black)return c;
+  try{const D=x.getImageData(0,0,w,h),p=D.data,alpha=cvHasAlpha(img);
+    for(let i=0;i<p.length;i+=4){const l=.2126*p[i]+.7152*p[i+1]+.0722*p[i+2];let a=alpha?p[i+3]:Math.max(0,Math.min(255,(235-l)*1.6));if(alpha&&l>235&&p[i+3]>0)a=0;
+      p[i]=22;p[i+1]=15;p[i+2]=32;p[i+3]=a}
+    x.putImageData(D,0,0)}catch(e){}
+  return c;
+}
+/* contour blanc autour d'une tête détourée, comme dans la maquette */
+function lvOutline(img){
+  const w=img.naturalWidth||img.width,h=img.naturalHeight||img.height,pad=Math.round(Math.max(w,h)*.04)+2,c=document.createElement('canvas');c.width=w+pad*2;c.height=h+pad*2;const x=c.getContext('2d');
+  const sil=document.createElement('canvas');sil.width=w;sil.height=h;const sx=sil.getContext('2d');sx.drawImage(img,0,0);sx.globalCompositeOperation='source-in';sx.fillStyle='#fffdf9';sx.fillRect(0,0,w,h);
+  for(let a=0;a<16;a++){const t=a/16*Math.PI*2;x.drawImage(sil,pad+Math.cos(t)*pad*.8,pad+Math.sin(t)*pad*.8)}
+  x.drawImage(img,pad,pad);return c;
+}
+function lvRR(x,X,Y,W,H,r){x.beginPath();x.roundRect?x.roundRect(X,Y,W,H,r):x.rect(X,Y,W,H)}
+function lvIcon(x,d,X,Y,col){x.save();x.translate(X,Y);x.scale(24/256,24/256);x.fillStyle=col;x.fill(new Path2D(d));x.restore()}
+function lvBadge(x,X,Y,label,ico,primary){
+  x.font=`500 24px ${AP}`;const t=label.toUpperCase(),tw=x.measureText(t).width,W=24+24+8+tw+24;
+  lvRR(x,X,Y,W,56,12);x.fillStyle=primary?'#4d25f7':'#ebf893';x.fill();
+  const col=primary?'#fffdf9':'#160f20';lvIcon(x,ico,X+24,Y+16,col);x.fillStyle=col;x.textBaseline='middle';x.fillText(t,X+56,Y+29);return W;
+}
+function lvFit(x,t,max,font,size,min){let s=size;x.font=font.replace('S',s);while(s>min&&x.measureText(t).width>max){s--;x.font=font.replace('S',s)}return cvFit(x,t,max)}
+function lvRender(c,scale){
+  const x=c.getContext('2d');c.width=1200*scale;c.height=630*scale;x.setTransform(scale*1200/1199,0,0,scale*630/629,0,0);
+  const [bg,pat,green]=LV_STYLES[LV.style]||LV_STYLES.Vert;
+  x.fillStyle=bg;x.fillRect(0,0,1199,629);
+  const P=LV_IMG.pat[pat];if(P){x.save();x.beginPath();x.rect(0,0,1199,629);x.clip();x.drawImage(P,539,-16,744,744);x.drawImage(P,-227,-16,744,744);x.restore()}
+  /* carte */
+  x.save();lvRR(x,49,56,1108,518,16);x.fillStyle='#fffdf9';x.fill();x.clip();
+  x.lineWidth=1;x.strokeStyle='#4d25f7';x.beginPath();x.moveTo(421.5,56);x.lineTo(421.5,574);x.stroke();
+  x.strokeStyle='#3419ad';x.beginPath();x.moveTo(421,178.5);x.lineTo(1157,178.5);x.stroke();x.beginPath();x.moveTo(421,452.5);x.lineTo(1157,452.5);x.stroke();
+  /* photo invité dans l'arche */
+  x.save();lvRR(x,108,114,254,307,127);x.clip();
+  if(LV.photo){const p=LV.photo,iw=p.width,ih=p.height,s0=Math.max(254/iw,307/ih)*LV.zoom,w=iw*s0,h=ih*s0;x.drawImage(p,235-w/2+LV.dx,267.5-h/2+LV.dy,w,h)}
+  else{x.fillStyle='#efeae0';x.fillRect(108,114,254,307);x.fillStyle='#e0d9cc';x.beginPath();x.ellipse(235,232,52,62,0,0,Math.PI*2);x.fill();x.beginPath();x.ellipse(235,420,110,110,0,Math.PI,0);x.fill()}
+  x.restore();lvRR(x,109,115,252,305,126);x.lineWidth=2;x.strokeStyle='#3419ad';x.stroke();
+  /* nom, poste, logo entreprise */
+  x.fillStyle='#160f20';x.textBaseline='middle';x.textAlign='center';
+  const nom=lvFit(x,(LV.nom.trim()||LV_PH.nom).toUpperCase(),330,`500 Spx ${AP}`,24,16);x.fillText(nom,235.5,466);
+  x.textAlign='left';
+  const L=LV.logo,lh=31,lw=L?Math.min(130,L.width*lh/L.height):0,gap=L?10:0;
+  let role=(LV.poste.trim()||LV_PH.poste).toUpperCase();role=lvFit(x,role,340-lw-gap,`400 Spx ${AP}`,20,13);
+  const rw=x.measureText(role).width,tot=rw+gap+lw,rx=235.5-tot/2;x.fillText(role,rx,501.5);
+  if(L){const h2=lw/L.width*L.height;x.drawImage(L,rx+rw+gap,500.5-h2/2,lw,h2)}
+  /* bandeau du haut : badge live + animateur */
+  const bw=lvBadge(x,453,89,'En live',LV_ICO.play,green);
+  x.fillStyle='#160f20';x.textAlign='right';const hl=lvFit(x,('Animé par '+(LV.host.trim()||'…')).toUpperCase(),1025-(453+bw+24),`500 Spx ${AP}`,24,15);x.fillText(hl,1025,118);x.textAlign='left';
+  const H=LV.hostImg;if(H){const s=Math.min(84/H.width,108/H.height),w=H.width*s,h=H.height*s;x.save();x.translate(1087,117.5);if(!LV.hostDefault)x.rotate(9*Math.PI/180);x.drawImage(H,-w/2,-h/2,w,h);x.restore()}
+  /* titre : 3 lignes max */
+  let size=48,lines;for(;size>=34;size-=2){x.font=`800 ${size}px ${BR}`;lines=cvWrap(x,LV.titre.trim()||LV_PH.titre,672);if(lines.length<=3)break}
+  LV.cut=lines.length>3;if(LV.cut)lines=[lines[0],lines[1],cvFit(x,lines.slice(2).join(' '),672)];
+  const lh2=Math.round(size*1.2);x.fillStyle='#160f20';lines.forEach((l,i)=>x.fillText(l,453,210+i*lh2+lh2/2+2));
+  /* bandeau du bas : date + logo */
+  lvBadge(x,453,485,lvDateText(),LV_ICO.cal,!green);
+  if(LV_IMG.logo)x.drawImage(LV_IMG.logo,1011,488,115,51);
+  x.restore();
+  lvRR(x,49.5,56.5,1107,517,16);x.lineWidth=1;x.strokeStyle='#4d25f7';x.stroke();
+}
+let lvCanvas=null;
+const lvDraw=()=>{if(!lvCanvas)return;lvRender(lvCanvas,1.5);const t=$('#lvtip');if(t){t.textContent=LV.cut?'Titre trop long : il est coupé sur la cover. Raccourcis-le.':'3 lignes maximum : la taille du texte s’adapte.';t.classList.toggle('bad',!!LV.cut)}};
+async function lvBoot(){
+  const need=[...new Set(Object.values(LV_STYLES).map(v=>v[1]))].filter(c=>!LV_IMG.pat[c]);
+  await Promise.all(need.map(async c=>{try{LV_IMG.pat[c]=await cvImg(cvSvgUrl(LV_SVG.pattern.replaceAll('COLOR',c)))}catch(e){}}));
+  if(!LV_IMG.logo){try{LV_IMG.logo=await cvImg(cvSvgUrl(LV_SVG.logo))}catch(e){}}
+  if(!LV.hostImg&&LV.hostDefault){try{LV.hostImg=await cvImg('raphael.png')}catch(e){}}
+  try{await Promise.all(['800 48px "Bricolage Grotesque"','500 24px "Apfel Grotezk"','400 20px "Apfel Grotezk"'].map(f=>document.fonts.load(f)))}catch(e){}
+  lvDraw();
+}
+function pageLive(){
+  const f=(id,l,v,ph,area,type)=>`<label class="cv-f"><span>${l}</span>${area?`<textarea id="${id}" rows="3" placeholder="${ph}">${esc(v)}</textarea>`:`<input id="${id}" type="${type||'text'}" value="${esc(v)}" placeholder="${ph}" autocomplete="off">`}</label>`;
+  const sw=Object.entries(LV_STYLES).map(([n,[bg,pat]])=>`<label class="cv-sw" title="${n}"><input type="radio" name="lvstyle" value="${n}" ${LV.style===n?'checked':''}><i style="background:${bg};box-shadow:inset 0 0 0 3px ${pat}"></i><span>${n}</span></label>`).join('');
+  main.innerHTML=`<div class="cv">${cvHead()}
+  <div class="cv-grid">
+   <form class="cv-form" onsubmit="return false">
+    <h2>Live</h2>
+    ${f('lvtitre','Titre du live',LV.titre,'Ex. Mes metrics partent en live',1)}
+    <p class="cv-hint" id="lvtip">3 lignes maximum : la taille du texte s’adapte.</p>
+    <div class="cv-row">${f('lvdate','Date',LV.date,'',0,'date')}${f('lvheure','Heure',LV.heure,'',0,'time')}</div>
+    <div class="cv-f"><span>Couleur de fond</span><div class="cv-sws">${sw}</div></div>
+    <h2>Invité</h2>
+    ${f('lvnom','Prénom et nom',LV.nom,'Ex. Camille Martin')}
+    ${f('lvposte','Poste',LV.poste,'Ex. Lead Data PM | ex-CPO')}
+    <div class="cv-f"><span>Logo de l’entreprise</span><label class="cv-drop cv-drop--sm"><input id="lvlogo" type="file" accept="image/png,image/svg+xml,image/webp,image/jpeg" hidden>${ic('UploadSimple',20)}<span><b>${LV.logo?'Changer le logo':'Ajouter un logo'}</b><small>PNG ou SVG, fond transparent de préférence</small></span></label>
+     <div class="cv-inline"><label class="cv-check"><input id="lvblack" type="checkbox" ${LV.logoBlack?'checked':''}> Logo en noir</label>${LV.logo?'<button type="button" class="cv-link" id="lvlogox">Retirer le logo</button>':''}</div></div>
+    <div class="cv-f"><span>Photo de l’invité</span><label class="cv-drop cv-drop--sm" id="lvdrop"><input id="lvphoto" type="file" accept="image/png,image/webp,image/jpeg" hidden>${ic('UploadSimple',20)}<span><b>${LV.photo?'Changer la photo':'Choisir une photo'}</b><small>Pas besoin de détourer : elle est recadrée dans l’arche</small></span></label></div>
+    <label class="cv-f"><span>Zoom</span><input id="lvzoom" type="range" min="100" max="250" value="${Math.round(LV.zoom*100)}"></label>
+    <h2>Animateur</h2>
+    ${f('lvhost','Nom',LV.host,'Ex. Raphaël')}
+    <div class="cv-f"><span>Photo</span><label class="cv-drop cv-drop--sm"><input id="lvhostf" type="file" accept="image/png,image/webp,image/jpeg" hidden>${ic('UploadSimple',20)}<span><b>Changer la photo</b><small>${LV.hostDefault?'Raphaël par défaut':'Photo importée'}</small></span></label>
+     <div class="cv-cut"><button type="button" class="y-btn y-btn--secondary y-btn--sm" id="lvcut" ${LV.hostDefault||LV.hostCut?'hidden':''}>${ic('MagicWand',18)}<span>Détourer automatiquement</span></button>${LV.hostDefault?'':'<button type="button" class="cv-link" id="lvhostx">Remettre Raphaël</button>'}<span class="cv-hint" id="lvcutst" aria-live="polite"></span></div></div>
+    <div class="cv-inline"><button type="button" class="cv-link" id="lvreset">Tout réinitialiser</button></div>
+   </form>
+   <div class="cv-stage">
+    <div class="cv-canvas cv-canvas--wide" id="lvwrap"><canvas id="lvc" aria-label="Aperçu de la cover Live"></canvas></div>
+    <p class="cv-hint">Glisse la photo de l’invité pour la recadrer, utilise le curseur Zoom pour l’agrandir.</p>
+    <div class="cv-actions"><button type="button" class="y-btn y-btn--primary y-btn--md" id="lvexport">${ic('DownloadSimple')}<span>Exporter en PNG</span></button>
+     <label class="cv-check"><input id="lvhd" type="checkbox" checked> Haute définition (2400 px)</label></div>
+   </div>
+  </div></div>`;
+  cvBindHead();
+  lvCanvas=$('#lvc');
+  const bind=(id,k)=>{$('#'+id).addEventListener('input',e=>{LV[k]=e.target.value;lvSave();lvDraw()})};
+  bind('lvtitre','titre');bind('lvdate','date');bind('lvheure','heure');bind('lvnom','nom');bind('lvposte','poste');bind('lvhost','host');
+  $$('input[name=lvstyle]').forEach(r=>r.addEventListener('change',()=>{LV.style=r.value;lvSave();lvDraw()}));
+  $('#lvzoom').addEventListener('input',e=>{LV.zoom=e.target.value/100;lvDraw()});
+  const pick=(inp,fn)=>inp.addEventListener('change',()=>{const f0=inp.files&&inp.files[0];if(!f0)return;if(!/^image\//.test(f0.type)){toast('Format non pris en charge');return}fn(URL.createObjectURL(f0))});
+  pick($('#lvphoto'),async u=>{try{LV.photo=await cvImg(u);LV.zoom=1;LV.dx=0;LV.dy=0;pageLive()}catch(e){toast('Image illisible')}});
+  pick($('#lvlogo'),async u=>{try{LV.logoRaw=await cvImg(u);LV.logo=lvInk(LV.logoRaw,LV.logoBlack);pageLive()}catch(e){toast('Image illisible')}});
+  pick($('#lvhostf'),async u=>{try{const im=await cvImg(u);LV.hostOrig=im;LV.hostImg=lvOutline(im);LV.hostDefault=false;LV.hostCut=false;pageLive()}catch(e){toast('Image illisible')}});
+  $('#lvblack').addEventListener('change',e=>{LV.logoBlack=e.target.checked;lvSave();if(LV.logoRaw)LV.logo=lvInk(LV.logoRaw,LV.logoBlack);lvDraw()});
+  const lx=$('#lvlogox');if(lx)lx.onclick=()=>{LV.logo=null;LV.logoRaw=null;pageLive()};
+  const hx=$('#lvhostx');if(hx)hx.onclick=async()=>{LV.hostDefault=true;LV.hostOrig=null;LV.hostImg=null;LV.hostCut=false;pageLive()};
+  const cut=$('#lvcut');if(cut)cut.onclick=async()=>{const st=$('#lvcutst');cut.disabled=true;st.textContent='Chargement du modèle (première fois : quelques secondes)…';
+    try{const c=await cvCutout(LV.hostOrig);LV.hostImg=lvOutline(c);LV.hostCut=true;pageLive()}catch(e){cut.disabled=false;st.textContent='Détourage indisponible ici. Détoure la photo sur ton Mac ou avec remove.bg.'}};
+  $('#lvreset').onclick=()=>{Object.assign(LV,LV_DEF,{photo:null,logo:null,logoRaw:null,hostImg:null,hostOrig:null,hostDefault:true,hostCut:false});lvSave();pageLive()};
+  /* recadrage de la photo invité */
+  let drag=null;const k=()=>1199/lvCanvas.getBoundingClientRect().width;
+  lvCanvas.addEventListener('pointerdown',e=>{if(!LV.photo)return;drag={x:e.clientX,y:e.clientY,dx:LV.dx,dy:LV.dy};lvCanvas.setPointerCapture(e.pointerId);lvCanvas.classList.add('grab')});
+  lvCanvas.addEventListener('pointermove',e=>{if(!drag)return;LV.dx=drag.dx+(e.clientX-drag.x)*k();LV.dy=drag.dy+(e.clientY-drag.y)*k();lvDraw()});
+  const up=()=>{drag=null;lvCanvas.classList.remove('grab')};lvCanvas.addEventListener('pointerup',up);lvCanvas.addEventListener('pointercancel',up);
+  $('#lvexport').onclick=async()=>{const b=$('#lvexport');b.disabled=true;
+    try{const c=document.createElement('canvas');lvRender(c,$('#lvhd').checked?2:1);
+      const blob=await new Promise(r=>c.toBlob(r,'image/png'));const n='live-'+(slug((LV.nom||'cover').normalize('NFD').replace(/[̀-ͯ]/g,''))||'cover')+'.png';
+      await saveFile(n,blob)}catch(e){toast('Export impossible')}finally{b.disabled=false}};
+  const fitTop=()=>{const g=$('.cv-grid');if(g)g.style.setProperty('--cv-top',Math.round(g.getBoundingClientRect().top+window.scrollY)+'px')};fitTop();
+  lvBoot();
 }
 
 const main=document.getElementById('main');

@@ -299,6 +299,15 @@ a{color:inherit}
 .ctable :focus{outline:none}.ctable :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
 .ctable select:focus,.ctable input[type=text]:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
 /* Sandbox Covers */
+.cv-sws{display:flex;flex-wrap:wrap;gap:8px}
+.cv-sw{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;font-size:11px;color:var(--muted)}
+.cv-sw input{position:absolute;opacity:0;pointer-events:none}
+.cv-sw i{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);display:block}
+.cv-sw input:checked+i{outline:2px solid var(--accent);outline-offset:2px}
+.cv-sw input:focus-visible+i{outline:2px dashed var(--accent);outline-offset:2px}
+.cv-drop--sm{padding:10px 12px}
+.cv-canvas--wide{width:100%!important;max-width:none!important}
+
 .cv{max-width:1240px}
 .cv-tpls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 20px}
 .cv-tpl{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 16px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:inherit;font:inherit;cursor:pointer}
