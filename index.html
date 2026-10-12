@@ -283,7 +283,7 @@ a{color:inherit}
 .mxw th{padding:8px 12px;font-size:12px;white-space:nowrap}
 .mxw thead th{text-align:center}
 .scrim{display:none}
-.tb-cta{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;margin-right:6px;border-radius:10px;background:var(--accent);color:#fff;font:600 13px/1 var(--f-body);text-decoration:none;white-space:nowrap;transition:filter .15s,transform .15s}
+.tb-cta{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;margin-right:2px;border-radius:10px;background:var(--accent);color:#fff;font:600 13px/1 var(--f-body);text-decoration:none;white-space:nowrap;transition:filter .15s,transform .15s}
 .tb-cta:hover{filter:brightness(1.1)}.tb-cta:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .tb-cta[aria-current]{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
 @media (max-width:560px){.tb-cta span{display:none}.tb-cta{padding:0 10px}}
@@ -1270,13 +1270,11 @@ function toolbar(c,title){
    <span class="sp"></span>
    ${showTools?tbtn('ptoggle',I.panel,PCLOSED?'Afficher le panneau':'Masquer le panneau'):''}
    ${c?`<a class="tbtn lnk" href="${FIGMA+c.node}" target="_blank" rel="noopener" title="Ouvrir dans Figma">${I.ext}<span>Figma</span></a>`:''}
-   <a class="tb-cta" aria-label="Créer avec le DS" href="#todo-sandbox-covers"${location.hash==='#todo-sandbox-covers'?' aria-current="page"':''}>${ic('MagicWand',16)}<span>Créer avec le DS</span></a>
-   ${tbtn('theme',I.moon,'Changer de thème')}</div>`;
+   <a class="tb-cta" aria-label="Créer avec le DS" href="#todo-sandbox-covers"${location.hash==='#todo-sandbox-covers'?' aria-current="page"':''}>${ic('MagicWand',16)}<span>Créer avec le DS</span></a></div>`;
 }
 function bindToolbar(c){
   const mn=$('#mn');
   $('#menu').onclick=()=>$('#app').classList.toggle('open');
-  $('#theme').onclick=()=>{const dark=root.getAttribute('data-theme')?root.getAttribute('data-theme')==='dark':matchMedia('(prefers-color-scheme:dark)').matches;const t=dark?'light':'dark';root.setAttribute('data-theme',t);try{localStorage.setItem('yb-theme',t)}catch(e){}};
   if(!c) return;
   $$('.tab',mn).forEach(b=>b.onclick=()=>{VIEW=b.dataset.v;route()});
   if(VIEW==='canvas'){
@@ -1749,7 +1747,7 @@ document.addEventListener('keydown',e=>{
 });
 addEventListener('hashchange',route);
 addEventListener('resize',applyFit);
-try{const t=localStorage.getItem('yb-theme');if(t)root.setAttribute('data-theme',t)}catch(e){}
+root.setAttribute('data-theme','light');
 route();
 if(document.fonts&&document.fonts.ready) document.fonts.ready.then(applyFit);
 })();
