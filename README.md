@@ -4,7 +4,7 @@ Vitrine code du design system Yeita, générée depuis le fichier Figma **V2.Des
 
 - **Guidelines** : tokens (couleurs, typographie, espacements), 1 513 icônes Phosphor, marque.
 - **Components** et **Sections** : chaque composant avec ses variantes, son HTML/CSS et ses tokens.
-- **Sandbox Covers** : génération des covers marketing (podcast Pause Produit) avec export PNG et détourage automatique.
+- **Covers** (`/covers/`, lien non listé) : génération des covers marketing (podcast Pause Produit), export PNG et détourage automatique.
 
 ## Structure
 
