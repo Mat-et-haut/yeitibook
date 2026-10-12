@@ -287,6 +287,7 @@ a{color:inherit}
 .tb-cta:hover{filter:brightness(1.1)}.tb-cta:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .tb-cta[aria-current]{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
 @media (max-width:560px){.tb-cta span{display:none}.tb-cta{padding:0 10px}}
+.ylogo-l{color:#160f20;text-decoration:none;display:block}.ylogo{display:block;overflow:visible;width:auto}.ylogo text{font:600 36px/1 'Bricolage Grotesque',system-ui,sans-serif;font-variation-settings:'opsz' 14}
 /* Sandbox Covers */
 .cv{max-width:1240px}
 .cv-tpls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 20px}
@@ -663,7 +664,7 @@ p.gt{margin:0}
 </style>
 <div class="app" id="app">
   <aside class="sb" aria-label="Navigation">
-    <div class="sb-head"><span class="logo-sq">Y</span><b>Yeitibook</b><i>V0</i></div>
+    <div class="sb-head"><a class="ylogo-l" href="#intro" aria-label="Y.Yeitibook, accueil"><svg class="ylogo" viewBox="0 0 196 39" height="28" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" fill="currentColor" d="M24.9648 0.595703C24.9547 0.680081 24.9456 0.766814 24.9355 0.855469L24.9814 0.857422C24.7324 11.3192 24.2392 20.4699 22.335 27.0225C23.2901 27.4244 24.062 27.7922 24.6006 28.0615L22.3643 32.5342C21.9196 32.3118 21.2848 32.0081 20.5 31.6748C19.6317 33.3017 18.5558 34.722 17.2031 35.833C15.2048 37.4743 12.7786 38.2979 9.98242 38.2979C5.10599 38.2979 1.85742 35.1698 1.85742 31.2979C1.85742 27.4259 5.10599 24.2979 9.98242 24.2979C12.7301 24.2979 15.3483 24.7682 17.6074 25.3838C18.0685 23.7516 18.4396 21.901 18.7402 19.8428C17.204 21.0637 15.2882 21.7979 12.9824 21.7979C10.1309 21.7979 7.87376 20.6774 6.19629 18.8984C4.59195 17.1969 3.59288 14.9798 2.92773 12.8066C1.61975 8.53283 1.33384 3.37753 1 0.595703L5.96484 0C6.35985 3.29151 6.57417 7.63602 7.70898 11.3438C8.26528 13.1613 8.97418 14.5558 9.83398 15.4678C10.6207 16.3021 11.5844 16.7979 12.9824 16.7979C14.3804 16.7979 15.3442 16.3021 16.1309 15.4678C16.9907 14.5558 17.6996 13.1613 18.2559 11.3438C19.3907 7.63602 19.605 3.29151 20 0L24.9648 0.595703ZM9.98242 29.2979C8.61496 29.2979 7.83917 29.7002 7.43652 30.0625C7.02788 30.4303 6.85742 30.8788 6.85742 31.2979C6.85742 31.7169 7.02788 32.1654 7.43652 32.5332C7.83917 32.8955 8.61496 33.2979 9.98242 33.2979C11.731 33.2979 13.0068 32.8095 14.0293 31.9697C14.61 31.4928 15.1577 30.8596 15.6689 30.0459C13.8981 29.6047 11.9568 29.2979 9.98242 29.2979Z"/><text x="28.5" y="25.4" fill="currentColor">.Yeitibook</text></svg></a></div>
     <div class="sb-search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="text" placeholder="Rechercher un composant" aria-label="Rechercher un composant" autocomplete="off"><kbd>/</kbd></div>
     <nav class="tree" id="tree"></nav>
     <label class="sb-foot"><input type="checkbox" id="showtodo" checked> Afficher les éléments à venir</label>
@@ -1154,7 +1155,7 @@ const TODO={}; // id -> {name,page,fam}
 TREE.forEach(f=>f.items.forEach(it=>{(it.cs||[]).forEach(x=>{if(!x.c)TODO[x.id]={name:x.n,page:it.page,fam:f.fam}});if(it.todo)TODO['todo-'+slug(it.page)]={name:it.page,page:it.page,fam:f.fam}}));
 
 let VIEW='canvas',Z=1,PTAB='controls',PPOS='bottom',PH=300,PW=380,PCLOSED=false,SEARCH='',SHOWTODO=true,LOADED='';
-const BG={}, EXP=new Set();
+const BG={}, EXP=new Set(), COLL=new Set();
 let main; // hôte des pages de documentation
 
 /* ---------- icônes UI ---------- */
@@ -1199,7 +1200,7 @@ function renderTree(reveal){
       if(it.todo){ if((!SHOWTODO&&!it.hot)||!hit(it.page,q)) return; const id='todo-'+slug(it.page); fh+=row(it.hot?'':'todo','nav',id,0,`<i class="sp0"></i>${I.folder}<span>${esc(it.page)}${it.hot?' <em style="font-style:normal;font-size:11px;opacity:.7">(bêta)</em>':''}</span>`,hc===id); return }
       if(it.docs){
         const kids=it.docs.filter(d=>hit(d[1],q)||hit(it.page,q)); if(!kids.length) return;
-        const open=q||EXP.has(it.key)||path.has(it.key);
+        const open=q||((EXP.has(it.key)||path.has(it.key))&&!COLL.has(it.key));
         fh+=row('page','tog',it.key,0,`${I.caret.replace('class="caret"','class="caret'+(open?' open':'')+'"')}${I.folder}<span>${it.page}</span>`);
         if(open) fh+=kids.map(d=>row('doc','nav',d[0],1,`${I.doc}<span>${d[1]}</span>`,hc===d[0])).join('');
         return;
@@ -1209,7 +1210,7 @@ function renderTree(reveal){
       const pageHit=hit(it.page,q);
       const match=cs.filter(x=>pageHit||hit(x.n,q)||(x.c&&STORIES[x.c.id].some(s=>hit(s.n,q))));
       if(!match.length) return;
-      const open=q||EXP.has(it.key)||path.has(it.key);
+      const open=q||((EXP.has(it.key)||path.has(it.key))&&!COLL.has(it.key));
       const allTodo=cs.every(x=>!x.c);
       fh+=row('page'+(allTodo?' todo':''),'tog',it.key,0,`${I.caret.replace('class="caret"','class="caret'+(open?' open':'')+'"')}${I.folder}<span>${esc(it.page)}</span>`);
       if(!open) return;
@@ -1218,7 +1219,7 @@ function renderTree(reveal){
         if(!x.c){ fh+=row('todo','nav',x.id,1,`<i class="sp0"></i>${I.comp}<span>${esc(x.n)}</span>`,hc===x.id); return }
         const stories=STORIES[x.c.id];
         if(single){ fh+=stories.map(s=>row('story','nav',x.id+'--'+s.id,1,`<i class="sp0"></i>${I.story}<span>${s.n}</span>`,hc===x.id&&hs===s.id)).join(''); return }
-        const copen=q||EXP.has('c:'+x.id)||path.has('c:'+x.id);
+        const copen=q||((EXP.has('c:'+x.id)||path.has('c:'+x.id))&&!COLL.has('c:'+x.id));
         fh+=row('comp','togc','c:'+x.id,1,`${I.caret.replace('class="caret"','class="caret'+(copen?' open':'')+'"')}${I.comp}<span>${esc(x.n)}</span>`);
         if(copen) fh+=stories.map(s=>row('story','nav',x.id+'--'+s.id,2,`<i class="sp0"></i>${I.story}<span>${s.n}</span>`,hc===x.id&&hs===s.id)).join('');
       });
@@ -1547,7 +1548,7 @@ function route(){
   const h=(location.hash||'').slice(1), [cid,sid]=h.split('--');
   const mn=$('#mn'); $('#app').classList.remove('open'); ro.disconnect();
   if(cid&&BYID[cid]&&!sid){location.replace('#'+cid+'--'+STORIES[cid][0].id);return}
-  renderTree(true);
+  COLL.clear();renderTree(true);
   if(cid&&BYID[cid]){
     const c=BYID[cid], st=STORIES[cid].find(s=>s.id===sid)||STORIES[cid][0], key=cid+'--'+st.id;
     if(LOADED!==key){STATE[cid]={...defaults(c),...st.a};LOADED=key;Z=1}
@@ -1565,7 +1566,7 @@ function route(){
 document.addEventListener('click',e=>{const a=e.target.closest('.canvas a, .dbox a, .cell a, .y-footer a');if(a&&a.getAttribute('href')==='#')e.preventDefault()},true);
 $('#tree').addEventListener('click',e=>{
   const b=e.target.closest('.row'); if(!b) return; const k=b.dataset.k, act=b.dataset.act;
-  if(act==='tog'||act==='togc'){EXP.has(k)?EXP.delete(k):EXP.add(k);renderTree()}
+  if(act==='tog'||act==='togc'){const isOpen=(EXP.has(k)||currentPath().has(k))&&!COLL.has(k);if(isOpen){EXP.delete(k);COLL.add(k)}else{EXP.add(k);COLL.delete(k)}renderTree()}
   else if(act==='nav'||act==='home'){ if(location.hash==='#'+k) route(); else location.hash=k }
 });
 $('#q').addEventListener('input',e=>{SEARCH=e.target.value;renderTree()});
