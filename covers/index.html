@@ -19,14 +19,17 @@
   /* LAYOUT: top bar + sidebar (240px) + main; sidebar devient une bande scrollable sous 860px */
   --bg:#faf8f4; --panel:#ffffff; --fg:#160f20; --muted:#686076; --line:#e7e2da; --accent:#4d25f7; --accent-fg:#ffffff;
   --chip:#efeaff; --hover:#f3efe8; --code-bg:#160f20; --code-fg:#ece8f5; --ok:#10b981;
-  --f-display:"Bricolage Grotesque","Space Grotesk",system-ui,sans-serif;
-  --f-body:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-display:"Bricolage Grotesque",system-ui,sans-serif;
+  --f-body:system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --radius:12px;
+}
+/* @@tokens:start — contenu de tokens/tokens.css, réinjecté par build.py, ne pas éditer ici */
+:root{
   /* Familles Yeita (components.css) */
-  --y-font-primary:"Bricolage Grotesque","Space Grotesk",system-ui,sans-serif;
-  --y-font-secondary:"Apfel Grotezk","Space Grotesk",system-ui,sans-serif;
-  --y-font-tertiary:"Uncut Plan8","Space Grotesk",system-ui,sans-serif;
+  --y-font-primary:"Bricolage Grotesque",system-ui,sans-serif;
+  --y-font-secondary:"Apfel Grotezk",system-ui,sans-serif;
+  --y-font-tertiary:"Uncut Plan8",system-ui,sans-serif;
     --y-background-brand-light: #8d73fa;
   --y-background-brand-medium: #4d25f7;
   --y-background-brand-strong: #3419ad;
@@ -40,18 +43,26 @@
   --y-background-accent-medium: #fe7b98;
   --y-background-neutral-default: #160f20;
   --y-background-neutral-invert: #fffdf9;
-  --y-background-invert-default: #fffdf9;
+  /* Doublon de background-neutral-invert (même valeur). Gardé en alias pour ne pas
+     casser les usages existants ; à supprimer dans Figma. */
+  --y-background-invert-default: var(--y-background-neutral-invert);
   --y-background-invert-medium: rgba(255,253,249,0.4);
   --y-text-neutral-medium: #160f20;
   --y-text-neutral-invert: #fffdf9;
   --y-text-brand-light: #8d73fa;
   --y-text-brand-medium: #4d25f7;
+  /* #3d1dc6 ici, #3419ad pour background-brand-strong : écart non documenté,
+     à trancher côté design (voir docs/figma-a-corriger.md). */
   --y-text-brand-strong: #3d1dc6;
   --y-text-brand-invert-light: #f4fbc4;
   --y-text-brand-invert-medium: #ebf893;
   --y-text-brand-invert-strong: #b9c376;
   --y-text-alert-light: #fecaca;
-  --y-text-alert-medium: #ef4444;
+  /* Corrigé pour l'accessibilité : #ef4444 donnait 2,60:1 sur le fond du champ en
+     erreur et 3,70:1 sur fond clair, sous le seuil de 4,5:1. Même teinte et même
+     saturation, luminosité ramenée de 60% à 40% : 4,51:1 sur le champ, 6,15:1 sur
+     la page. À remonter dans Figma (text/alert/medium). */
+  --y-text-alert-medium: #bc1010;
   --y-stroke-brand-light: #8d73fa;
   --y-stroke-brand-medium: #4d25f7;
   --y-stroke-brand-strong: #3419ad;
@@ -98,6 +109,13 @@
   --y-font-size-lg: 18px;
   --y-font-size-xl: 20px;
   --y-font-size-5xl: 48px;
+  /* Styles de titre. Les tailles, l'interlettrage et l'optical size n'existent pas
+     dans les variables Figma : relevés dans la maquette, à y remonter. */
+  --y-font-size-h1: 64px;
+  --y-font-size-h3: 32px;
+  --y-letter-spacing-h1: 1px;
+  --y-letter-spacing-h3: 0;
+  --y-font-optical-size: 14;
   --y-line-height-h1: 80px;
   --y-line-height-h3: 40px;
   --y-line-height-subtitle: 24px;
@@ -110,6 +128,7 @@
   --y-shadow-badge: 0 2px 10px rgba(77,37,247,0.32);
   --y-shadow-field-active: 0 0 1px rgba(22,15,32,0.4);
 }
+/* @@tokens:end */
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#110b19; --panel:#1a1326; --fg:#f3effa; --muted:#a79fb8; --line:#2c2339; --accent:#a893ff; --accent-fg:#110b19;
   --chip:#2a1f47; --hover:#221a30; --code-bg:#0a0610; --code-fg:#ece8f5; color-scheme:dark}}
@@ -144,6 +163,10 @@ th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);verti
 th{font-weight:500;color:var(--muted);font-size:12px}
 td code,.mono{font:12px/1.4 var(--f-mono)}
 .dot{display:inline-block;width:14px;height:14px;border-radius:4px;border:1px solid var(--line);vertical-align:-2px;margin-right:6px}
+.usage{padding:16px;display:flex;flex-direction:column;gap:12px;font-size:14px}
+.usage p{margin:4px 0 0}.usage ul{margin:4px 0 0;padding-left:18px}.usage li{margin:3px 0}
+.usage-flag{margin:0;padding:8px 12px;border-radius:8px;background:#fff3cd;color:#6b4e00;font-weight:600}
+.usage--vide{color:var(--muted)}
 .notes{padding:16px;display:flex;flex-direction:column;gap:10px;font-size:14px}
 .notes ul{margin:0;padding-left:18px}
 .notes li{margin:3px 0}
@@ -558,9 +581,11 @@ p.gt{margin:0}
 
 </style>
 <style id="ccss">
+/* @@components:start — contenu de css/components.css, réinjecté par build.py, ne pas éditer ici */
+… /* @@end */ délimitent chaque composant pour l'export par composant. */
 /* @@base */
 .y-icon{flex:none;display:block}
-.y-wordmark{font:800 16px/15px var(--y-font-primary);letter-spacing:.06em;font-variation-settings:"opsz" 14;color:currentColor;text-transform:uppercase}
+.y-wordmark{font:800 16px/15px var(--y-font-primary);letter-spacing:.06em;font-variation-settings:"opsz" var(--y-font-optical-size);color:currentColor;text-transform:uppercase}
 /* @@end */
 
 /* @@button */
@@ -578,7 +603,7 @@ p.gt{margin:0}
 .y-btn--secondary{--b-bg:var(--y-background-brand-secondary-medium);--b-fg:var(--y-text-neutral-medium)}
 .y-btn--secondary:hover,.y-btn--secondary.is-hover{--b-bg:var(--y-background-brand-secondary-strong)}
 .y-btn--secondary:active,.y-btn--secondary.is-pressed{--b-bg:var(--y-background-brand-secondary-light)}
-.y-btn--ghost{--b-bg:var(--y-background-invert-default);--b-fg:var(--y-text-neutral-medium);--b-bw:var(--y-stroke-width-sm);--b-bc:var(--y-stroke-brand-light)}
+.y-btn--ghost{--b-bg:var(--y-background-neutral-invert);--b-fg:var(--y-text-neutral-medium);--b-bw:var(--y-stroke-width-sm);--b-bc:var(--y-stroke-brand-light)}
 .y-btn--ghost:hover,.y-btn--ghost.is-hover{--b-bg:var(--y-background-brand-strong);--b-bc:var(--y-stroke-brand-medium);--b-fg:var(--y-text-neutral-invert)}
 .y-btn--ghost:active,.y-btn--ghost.is-pressed{--b-bg:var(--y-background-brand-light);--b-bc:var(--y-stroke-brand-strong);--b-fg:var(--y-text-neutral-invert)}
 .y-btn--ghost.is-current{--b-bg:var(--y-background-brand-medium);--b-bc:var(--y-stroke-brand-medium);--b-fg:var(--y-text-neutral-invert)}
@@ -673,9 +698,9 @@ p.gt{margin:0}
 .y-card-cta--invert{--c-bg:var(--y-background-neutral-default);--c-bc:var(--y-stroke-brand-invert-medium);--c-fg:var(--y-text-neutral-invert)}
 .y-card-cta--invert:hover,.y-card-cta--invert.is-hover{--c-bg:var(--y-background-brand-invert-medium);--c-fg:var(--y-text-neutral-medium)}
 .y-card-cta__text{position:relative;z-index:1;display:flex;flex-direction:column;gap:var(--y-gap-md);max-width:500px}
-.y-card-cta__title{margin:0;font:400 64px/var(--y-line-height-h1) var(--y-font-primary);letter-spacing:1px;font-variation-settings:"opsz" 14}
+.y-card-cta__title{margin:0;font:400 var(--y-font-size-h1)/var(--y-line-height-h1) var(--y-font-primary);letter-spacing:var(--y-letter-spacing-h1);font-variation-settings:"opsz" var(--y-font-optical-size)}
 .y-card-cta__title strong{font-weight:800}
-.y-card-cta--mobile .y-card-cta__title{font-size:32px;line-height:var(--y-line-height-h3);letter-spacing:0}
+.y-card-cta--mobile .y-card-cta__title{font-size:var(--y-font-size-h3);line-height:var(--y-line-height-h3);letter-spacing:var(--y-letter-spacing-h3)}
 .y-card-cta__sub{margin:0;max-width:300px;font:400 var(--y-font-size-md)/var(--y-line-height-body) var(--y-font-secondary)}
 .y-card-cta .y-btn{position:relative;z-index:1;align-self:flex-start;font-weight:700}
 .y-card-cta__float{position:absolute;right:-68px;bottom:-137px;width:372px;height:323px;display:grid;place-items:center;pointer-events:none}
@@ -695,7 +720,7 @@ p.gt{margin:0}
 .y-header--mobile{width:358px;justify-content:space-between;padding:var(--y-padding-md)}
 .y-header__nav{flex:1;display:flex;gap:var(--y-gap-2xl);align-items:center;justify-content:center}
 .y-header__left{display:flex;align-items:center;gap:var(--y-gap-xl)}
-.y-header__menu{display:grid;place-items:center;padding:var(--y-padding-xl) var(--y-padding-2xl);border-radius:var(--y-radius-xl);background:var(--y-background-invert-default);color:var(--y-text-neutral-medium)}
+.y-header__menu{display:grid;place-items:center;padding:var(--y-padding-xl) var(--y-padding-2xl);border-radius:var(--y-radius-xl);background:var(--y-background-neutral-invert);color:var(--y-text-neutral-medium)}
 .y-header--invert .y-header__menu{background:transparent;color:var(--y-text-neutral-invert)}
 /* @@end */
 
@@ -731,7 +756,7 @@ p.gt{margin:0}
 .y-hero__content{display:flex;flex-direction:column;gap:var(--y-gap-3xl);padding:var(--y-padding-7xl) 0}
 .y-hero--centered .y-hero__content{align-items:center;text-align:center}
 .y-hero--left.y-hero--desktop .y-hero__content{padding-left:var(--y-padding-6xl);align-items:flex-start}
-.y-hero__title{margin:0;font:400 64px/var(--y-line-height-h1) var(--y-font-primary);letter-spacing:1px;font-variation-settings:"opsz" 14;text-wrap:balance}
+.y-hero__title{margin:0;font:400 var(--y-font-size-h1)/var(--y-line-height-h1) var(--y-font-primary);letter-spacing:var(--y-letter-spacing-h1);font-variation-settings:"opsz" var(--y-font-optical-size);text-wrap:balance}
 .y-hero__title strong{font-weight:800}
 .y-hero__lead{margin:0;font:400 var(--y-font-size-xl)/var(--y-line-height-subtitle) var(--y-font-secondary);max-width:760px}
 .y-hero__cta{display:flex;gap:var(--y-gap-2xl);flex-wrap:wrap}
@@ -740,7 +765,7 @@ p.gt{margin:0}
 .y-hero__side>*{position:absolute}
 .y-hero--mobile .y-hero__main{padding-top:var(--y-padding-5xl)}
 .y-hero--mobile .y-hero__content{padding:0 var(--y-padding-xl) var(--y-padding-3xl);gap:var(--y-gap-2xl)}
-.y-hero--mobile .y-hero__title{font-size:32px;line-height:var(--y-line-height-h3);letter-spacing:0}
+.y-hero--mobile .y-hero__title{font-size:var(--y-font-size-h3);line-height:var(--y-line-height-h3);letter-spacing:var(--y-letter-spacing-h3)}
 .y-hero--mobile .y-hero__cta{flex-direction:column;gap:var(--y-gap-xl);align-items:stretch;width:100%}
 .y-hero--mobile.y-hero--left .y-hero__cta{align-items:flex-start;width:auto}
 .y-hero--mobile.y-hero--centered .y-hero__cta .y-btn{width:100%}
@@ -752,7 +777,7 @@ p.gt{margin:0}
 .y-logos--pill{padding:0 var(--y-padding-6xl) var(--y-padding-5xl)}
 .y-logos--mobile{padding:0 var(--y-padding-xl) var(--y-padding-5xl)}
 .y-logos__row{display:flex;align-items:center;gap:var(--y-gap-2xl);padding:var(--y-padding-lg) var(--y-padding-xl);min-width:0;overflow:hidden;white-space:nowrap;
-  background:linear-gradient(90deg,rgba(122,224,165,0),rgba(122,224,165,.2) 53%,rgba(122,224,165,0)),var(--y-background-invert-default);color:var(--y-text-neutral-medium);
+  background:linear-gradient(90deg,rgba(122,224,165,0),rgba(122,224,165,.2) 53%,rgba(122,224,165,0)),var(--y-background-neutral-invert);color:var(--y-text-neutral-medium);
   border:1px solid var(--y-stroke-brand-medium)}
 .y-logos--pill .y-logos__row{border-radius:var(--y-radius-full);width:100%;justify-content:center}
 .y-logos--band{width:100%;padding:0}
@@ -762,7 +787,7 @@ p.gt{margin:0}
 .y-clientmark:nth-child(4n+1){font-family:var(--y-font-tertiary);font-weight:500;text-transform:uppercase;letter-spacing:.14em;font-size:20px}
 .y-clientmark:nth-child(4n+3){font-style:italic;font-weight:400}
 /* @@end */
-
+/* @@components:end */
 </style>
 
 <style>

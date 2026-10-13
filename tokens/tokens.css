@@ -1,0 +1,106 @@
+/* Design system Yeita — tokens
+   Source de vérité : ce fichier. Il est réinjecté dans index.html par build.py.
+   Généré depuis Figma (V2.Design.System) par l'extracteur, puis complété à la main pour la typo. */
+:root{
+  /* Familles Yeita (components.css) */
+  --y-font-primary:"Bricolage Grotesque",system-ui,sans-serif;
+  --y-font-secondary:"Apfel Grotezk",system-ui,sans-serif;
+  --y-font-tertiary:"Uncut Plan8",system-ui,sans-serif;
+    --y-background-brand-light: #8d73fa;
+  --y-background-brand-medium: #4d25f7;
+  --y-background-brand-strong: #3419ad;
+  --y-background-brand-secondary-light: #98f0bf;
+  --y-background-brand-secondary-medium: #6de5a0;
+  --y-background-brand-secondary-strong: #4ca070;
+  --y-background-brand-invert-light: #f4fbc4;
+  --y-background-brand-invert-medium: #ebf893;
+  --y-background-brand-invert-strong: #b9c376;
+  --y-background-accent-light: #ffa5c1;
+  --y-background-accent-medium: #fe7b98;
+  --y-background-neutral-default: #160f20;
+  --y-background-neutral-invert: #fffdf9;
+  /* Doublon de background-neutral-invert (même valeur). Gardé en alias pour ne pas
+     casser les usages existants ; à supprimer dans Figma. */
+  --y-background-invert-default: var(--y-background-neutral-invert);
+  --y-background-invert-medium: rgba(255,253,249,0.4);
+  --y-text-neutral-medium: #160f20;
+  --y-text-neutral-invert: #fffdf9;
+  --y-text-brand-light: #8d73fa;
+  --y-text-brand-medium: #4d25f7;
+  /* #3d1dc6 ici, #3419ad pour background-brand-strong : écart non documenté,
+     à trancher côté design (voir docs/figma-a-corriger.md). */
+  --y-text-brand-strong: #3d1dc6;
+  --y-text-brand-invert-light: #f4fbc4;
+  --y-text-brand-invert-medium: #ebf893;
+  --y-text-brand-invert-strong: #b9c376;
+  --y-text-alert-light: #fecaca;
+  /* Corrigé pour l'accessibilité : #ef4444 donnait 2,60:1 sur le fond du champ en
+     erreur et 3,70:1 sur fond clair, sous le seuil de 4,5:1. Même teinte et même
+     saturation, luminosité ramenée de 60% à 40% : 4,51:1 sur le champ, 6,15:1 sur
+     la page. À remonter dans Figma (text/alert/medium). */
+  --y-text-alert-medium: #bc1010;
+  --y-stroke-brand-light: #8d73fa;
+  --y-stroke-brand-medium: #4d25f7;
+  --y-stroke-brand-strong: #3419ad;
+  --y-stroke-brand-invert-light: #f4fbc4;
+  --y-stroke-brand-invert-medium: #ebf893;
+  --y-stroke-brand-invert-strong: #b9c376;
+  --y-stroke-accent-light: #ffa5c1;
+  --y-stroke-accent-medium: #fe7b98;
+  --y-stroke-accent-strong: #b4566b;
+  --y-stroke-success-light: #a7f3d0;
+  --y-stroke-success-medium: #10b981;
+  --y-stroke-alert-medium: #ef4444;
+  --y-stroke-neutral-default: #160f20;
+  --y-stroke-neutral-invert: #fffdf9;
+  --y-link-brand-invert-hover: #dae689;
+  --y-padding-none: 0px;
+  --y-padding-xs: 4px;
+  --y-padding-md: 8px;
+  --y-padding-lg: 12px;
+  --y-padding-xl: 16px;
+  --y-padding-2xl: 24px;
+  --y-padding-3xl: 32px;
+  --y-padding-5xl: 64px;
+  --y-padding-6xl: 80px;
+  --y-padding-7xl: 128px;
+  --y-padding-8xl: 256px;
+  --y-gap-sm: 4px;
+  --y-gap-md: 8px;
+  --y-gap-lg: 12px;
+  --y-gap-xl: 16px;
+  --y-gap-2xl: 24px;
+  --y-gap-3xl: 32px;
+  --y-gap-5xl: 64px;
+  --y-radius-sm: 4px;
+  --y-radius-xl: 12px;
+  --y-radius-2xl: 16px;
+  --y-radius-full: 999px;
+  --y-stroke-width-sm: 1px;
+  --y-stroke-width-md: 2px;
+  --y-stroke-width-xl: 6px;
+  --y-font-size-xs: 12px;
+  --y-font-size-sm: 14px;
+  --y-font-size-md: 16px;
+  --y-font-size-lg: 18px;
+  --y-font-size-xl: 20px;
+  --y-font-size-5xl: 48px;
+  /* Styles de titre. Les tailles, l'interlettrage et l'optical size n'existent pas
+     dans les variables Figma : relevés dans la maquette, à y remonter. */
+  --y-font-size-h1: 64px;
+  --y-font-size-h3: 32px;
+  --y-letter-spacing-h1: 1px;
+  --y-letter-spacing-h3: 0;
+  --y-font-optical-size: 14;
+  --y-line-height-h1: 80px;
+  --y-line-height-h3: 40px;
+  --y-line-height-subtitle: 24px;
+  --y-line-height-body: 24px;
+  --y-line-height-action: 26px;
+  --y-line-height-note: 20px;
+  --y-line-height-caption: 16px;
+  --y-shadow-floating: 6px 6px 8px 0 rgba(22,15,32,0.08);
+  --y-shadow-header: 0 6px 20px 0 rgba(77,37,247,0.04);
+  --y-shadow-badge: 0 2px 10px rgba(77,37,247,0.32);
+  --y-shadow-field-active: 0 0 1px rgba(22,15,32,0.4);
+}
