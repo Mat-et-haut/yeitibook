@@ -1,0 +1,452 @@
+{
+ "button": [
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "link": [
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "tag": [
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "Input": [
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "card.cta": [
+  "inline : 1 nœud(s) avec un style en ligne",
+  "fige : 1 bloc(s) de texte à hauteur figée",
+  "tokens : 2 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "header": [
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "footer": [
+  "inline : 1 nœud(s) avec un style en ligne",
+  "fige : 1 bloc(s) de texte à hauteur figée",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.hero": [
+  "inline : 7 nœud(s) avec un style en ligne",
+  "fige : 2 bloc(s) de texte à hauteur figée",
+  "responsive : 5 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 7 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "card.client": [
+  "inline : 15 nœud(s) avec un style en ligne",
+  "fige : 3 bloc(s) de texte à hauteur figée",
+  "responsive : 6 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 6 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "card.gallery.item": [
+  "inline : 7 nœud(s) avec un style en ligne",
+  "fige : 2 bloc(s) de texte à hauteur figée",
+  "tokens : 5 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "card.tape": [
+  "inline : 2 nœud(s) avec un style en ligne",
+  "tokens : 1 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "card.gallery.title": [
+  "inline : 28 nœud(s) avec un style en ligne",
+  "fige : 4 bloc(s) de texte à hauteur figée",
+  "responsive : 6 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 18 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "card.expertises.details": [
+  "inline : 11 nœud(s) avec un style en ligne",
+  "responsive : 8 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 8 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "card.formation": [
+  "inline : 20 nœud(s) avec un style en ligne",
+  "tokens : 12 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "card.quote": [
+  "inline : 5 nœud(s) avec un style en ligne",
+  "responsive : 4 bloc(s) dépassent la fenêtre à 360px",
+  "responsive : 4 bloc(s) dépassent la fenêtre à 768px",
+  "tokens : 4 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "card.list.item": [
+  "inline : 35 nœud(s) avec un style en ligne",
+  "fige : 3 bloc(s) de texte à hauteur figée",
+  "responsive : 3 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 22 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "card.expertises": [
+  "inline : 44 nœud(s) avec un style en ligne",
+  "fige : 8 bloc(s) de texte à hauteur figée",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 21 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "card.people": [
+  "inline : 9 nœud(s) avec un style en ligne",
+  "fige : 2 bloc(s) de texte à hauteur figée",
+  "responsive : 6 bloc(s) dépassent la fenêtre à 360px",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 768px",
+  "tokens : 5 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "card.media": [
+  "inline : 12 nœud(s) avec un style en ligne",
+  "fige : 4 bloc(s) de texte à hauteur figée",
+  "responsive : 2 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 7 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "card.banner": [
+  "inline : 13 nœud(s) avec un style en ligne",
+  "responsive : 3 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 11 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "card.banner.usecase": [
+  "inline : 13 nœud(s) avec un style en ligne",
+  "tokens : 9 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "checkbox": [
+  "inline : 1 nœud(s) avec un style en ligne",
+  "tokens : 1 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "checkbox.input": [
+  "inline : 8 nœud(s) avec un style en ligne",
+  "fige : 2 bloc(s) de texte à hauteur figée",
+  "tokens : 4 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "collapse": [
+  "inline : 3 nœud(s) avec un style en ligne",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 3 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "collapse.expertises": [
+  "inline : 4 nœud(s) avec un style en ligne",
+  "tokens : 4 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "Cursor": [
+  "inline : 5 nœud(s) avec un style en ligne",
+  "fige : 1 bloc(s) de texte à hauteur figée",
+  "tokens : 2 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "dropdown.default": [
+  "inline : 7 nœud(s) avec un style en ligne",
+  "fige : 1 bloc(s) de texte à hauteur figée",
+  "tokens : 1 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "dropdown.header": [
+  "inline : 32 nœud(s) avec un style en ligne",
+  "fige : 2 bloc(s) de texte à hauteur figée",
+  "responsive : 5 bloc(s) dépassent la fenêtre à 360px",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 768px",
+  "tokens : 15 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "floating.image": [
+  "inline : 2 nœud(s) avec un style en ligne",
+  "tokens : 2 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "floating.peeps": [
+  "inline : 6 nœud(s) avec un style en ligne",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "floating.badge": [
+  "inline : 2 nœud(s) avec un style en ligne",
+  "tokens : 2 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "form.newsletter": [
+  "inline : 3 nœud(s) avec un style en ligne",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "form.contact": [
+  "inline : 38 nœud(s) avec un style en ligne",
+  "fige : 7 bloc(s) de texte à hauteur figée",
+  "tokens : 20 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "header.mobile.open": [
+  "inline : 30 nœud(s) avec un style en ligne",
+  "fige : 1 bloc(s) de texte à hauteur figée",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 1 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "header.media": [
+  "inline : 10 nœud(s) avec un style en ligne",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 1 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "illustrations.source": [
+  "inline : 6 nœud(s) avec un style en ligne",
+  "responsive : 7 bloc(s) dépassent la fenêtre à 360px",
+  "responsive : 3 bloc(s) dépassent la fenêtre à 768px",
+  "tokens : 1 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "illustrations.png": [
+  "inline : 2 nœud(s) avec un style en ligne",
+  "responsive : 2 bloc(s) dépassent la fenêtre à 360px",
+  "responsive : 2 bloc(s) dépassent la fenêtre à 768px",
+  "tokens : 1 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "linklist": [
+  "inline : 2 nœud(s) avec un style en ligne",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "pattern.grid": [
+  "inline : 5 nœud(s) avec un style en ligne",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "pattern.dots": [
+  "inline : 6 nœud(s) avec un style en ligne",
+  "tokens : 5 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "pattern.y": [
+  "inline : 5 nœud(s) avec un style en ligne",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "Player": [
+  "inline : 9 nœud(s) avec un style en ligne",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 4 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "radio": [
+  "inline : 1 nœud(s) avec un style en ligne",
+  "tokens : 1 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "radio.input": [
+  "inline : 8 nœud(s) avec un style en ligne",
+  "fige : 2 bloc(s) de texte à hauteur figée",
+  "tokens : 4 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "review": [
+  "inline : 10 nœud(s) avec un style en ligne",
+  "responsive : 4 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 6 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "filter-tag": [
+  "inline : 4 nœud(s) avec un style en ligne",
+  "fige : 1 bloc(s) de texte à hauteur figée",
+  "tokens : 4 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "filter-tag-bar": [
+  "inline : 56 nœud(s) avec un style en ligne",
+  "fige : 23 bloc(s) de texte à hauteur figée",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 768px",
+  "tokens : 44 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "click-area-tag": [
+  "inline : 5 nœud(s) avec un style en ligne",
+  "fige : 2 bloc(s) de texte à hauteur figée",
+  "tokens : 4 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "toaster": [
+  "inline : 28 nœud(s) avec un style en ligne",
+  "fige : 1 bloc(s) de texte à hauteur figée",
+  "responsive : 9 bloc(s) dépassent la fenêtre à 360px",
+  "responsive : 3 bloc(s) dépassent la fenêtre à 768px",
+  "tokens : 8 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.clients.logos": [
+  "inline : 42 nœud(s) avec un style en ligne",
+  "fige : 20 bloc(s) de texte à hauteur figée",
+  "responsive : 3 bloc(s) dépassent la fenêtre à 360px",
+  "responsive : 3 bloc(s) dépassent la fenêtre à 768px",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 1600px",
+  "tokens : 21 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.clients.usecase": [
+  "inline : 38 nœud(s) avec un style en ligne",
+  "fige : 6 bloc(s) de texte à hauteur figée",
+  "responsive : 2 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 17 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.collectif": [
+  "inline : 15 nœud(s) avec un style en ligne",
+  "fige : 3 bloc(s) de texte à hauteur figée",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 8 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.process": [
+  "inline : 53 nœud(s) avec un style en ligne",
+  "fige : 3 bloc(s) de texte à hauteur figée",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 41 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.quotidien": [
+  "inline : 20 nœud(s) avec un style en ligne",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 18 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.contact": [
+  "inline : 23 nœud(s) avec un style en ligne",
+  "fige : 4 bloc(s) de texte à hauteur figée",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 14 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.content": [
+  "inline : 19 nœud(s) avec un style en ligne",
+  "fige : 3 bloc(s) de texte à hauteur figée",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 15 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.content.usecase": [
+  "inline : 148 nœud(s) avec un style en ligne",
+  "fige : 5 bloc(s) de texte à hauteur figée",
+  "responsive : 17 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 111 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.collapse.expertises": [
+  "inline : 41 nœud(s) avec un style en ligne",
+  "fige : 2 bloc(s) de texte à hauteur figée",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 29 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.collapse.offres": [
+  "inline : 53 nœud(s) avec un style en ligne",
+  "fige : 3 bloc(s) de texte à hauteur figée",
+  "responsive : 3 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 22 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.collapse.collectif": [
+  "inline : 32 nœud(s) avec un style en ligne",
+  "fige : 2 bloc(s) de texte à hauteur figée",
+  "responsive : 2 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 26 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.gallery": [
+  "inline : 45 nœud(s) avec un style en ligne",
+  "fige : 9 bloc(s) de texte à hauteur figée",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 22 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.faq": [
+  "inline : 19 nœud(s) avec un style en ligne",
+  "fige : 1 bloc(s) de texte à hauteur figée",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 16 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.list": [
+  "inline : 96 nœud(s) avec un style en ligne",
+  "fige : 30 bloc(s) de texte à hauteur figée",
+  "responsive : 5 bloc(s) dépassent la fenêtre à 360px",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 768px",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 1600px",
+  "tokens : 57 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.media": [
+  "inline : 10 nœud(s) avec un style en ligne",
+  "fige : 1 bloc(s) de texte à hauteur figée",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 5 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.media.usecase": [
+  "inline : 14 nœud(s) avec un style en ligne",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 9 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.media.gallery": [
+  "inline : 152 nœud(s) avec un style en ligne",
+  "fige : 49 bloc(s) de texte à hauteur figée",
+  "responsive : 28 bloc(s) dépassent la fenêtre à 360px",
+  "responsive : 16 bloc(s) dépassent la fenêtre à 768px",
+  "tokens : 86 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.media.list": [
+  "inline : 44 nœud(s) avec un style en ligne",
+  "fige : 11 bloc(s) de texte à hauteur figée",
+  "responsive : 12 bloc(s) dépassent la fenêtre à 360px",
+  "responsive : 4 bloc(s) dépassent la fenêtre à 768px",
+  "tokens : 24 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "pagination-bar": [
+  "inline : 5 nœud(s) avec un style en ligne",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 768px",
+  "tokens : 1 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "search + double-filtre": [
+  "inline : 120 nœud(s) avec un style en ligne",
+  "fige : 49 bloc(s) de texte à hauteur figée",
+  "responsive : 8 bloc(s) dépassent la fenêtre à 360px",
+  "responsive : 4 bloc(s) dépassent la fenêtre à 768px",
+  "tokens : 92 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.newsletter": [
+  "inline : 8 nœud(s) avec un style en ligne",
+  "fige : 1 bloc(s) de texte à hauteur figée",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 4 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "section.reviews": [
+  "inline : 37 nœud(s) avec un style en ligne",
+  "fige : 1 bloc(s) de texte à hauteur figée",
+  "responsive : 1 bloc(s) dépassent la fenêtre à 360px",
+  "tokens : 23 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "logo.letter": [
+  "inline : 2 nœud(s) avec un style en ligne",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "logo": [
+  "inline : 6 nœud(s) avec un style en ligne",
+  "tokens : 2 nœud(s) avec une couleur en dur",
+  "usage : règle d'usage au statut « proposition »"
+ ],
+ "logo.animate": [
+  "inline : 13 nœud(s) avec un style en ligne",
+  "usage : règle d'usage au statut « proposition »"
+ ]
+}
