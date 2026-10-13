@@ -291,7 +291,9 @@ a{color:inherit}
 .tb-cta[aria-current]{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
 @media (max-width:560px){.tb-cta span{display:none}.tb-cta{padding:0 10px}}
 .ylogo-l{color:#160f20;text-decoration:none;display:block}.ylogo{display:block;overflow:visible;width:auto}.ylogo text{font:600 36px/1 'Bricolage Grotesque',system-ui,sans-serif;font-variation-settings:'opsz' 14}
-.yi{display:grid;cursor:pointer;outline:none}.yi>.yl{grid-area:1/1;visibility:hidden;min-width:0}.yi>.yl-rest{visibility:visible}
+.yi{display:grid;cursor:pointer;outline:none;transition:transform .25s}
+.yi-rot:hover{transform:rotate(2deg)}
+@media (prefers-reduced-motion:reduce){.yi,.y-card-cta{transition:none}.yi-rot:hover,.y-card-cta:hover{transform:none}}.yi>.yl{grid-area:1/1;visibility:hidden;min-width:0}.yi>.yl-rest{visibility:visible}
 .yi:focus-visible{outline:2px dashed var(--accent);outline-offset:6px;border-radius:4px}
 .yi:focus-visible:not(:hover):has(>.yl-fo)>.yl{visibility:hidden}.yi:focus-visible:not(:hover):has(>.yl-fo)>.yl-fo{visibility:visible}
 .yi:hover:has(>.yl-h)>.yl{visibility:hidden}.yi:hover:has(>.yl-h)>.yl-h{visibility:visible}
@@ -301,6 +303,12 @@ a{color:inherit}
 .ctable input,.ctable select{accent-color:var(--accent)}
 .ctable :focus{outline:none}.ctable :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
 .ctable select:focus,.ctable input[type=text]:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+/* Survol des cartes : calque coloré + rotation (conforme à yeita.fr) */
+.y-lift{display:grid;width:fit-content;max-width:100%;background:var(--lift-fill,#4d25f7);border-radius:16px}
+.y-lift__in{grid-area:1/1;transition:transform .25s ease;transform-origin:50% 50%;will-change:transform}
+.y-lift:hover .y-lift__in{transform:rotate(2deg)}
+@media (max-width:767px){.y-lift:hover .y-lift__in{transform:none}}
+@media (prefers-reduced-motion:reduce){.y-lift__in{transition:none}.y-lift:hover .y-lift__in{transform:none}}
 /* Audit */
 .au{max-width:1100px}
 .au-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:22px 0}
@@ -313,7 +321,8 @@ a{color:inherit}
 .au-t-ret b{color:#b5730a}.au-t-ret:hover{border-color:#b5730a}
 .au-t-blo b{color:#c0392b}.au-t-blo:hover{border-color:#c0392b}
 .au-verdict{padding:20px 22px}.au-verdict h2{margin:0 0 6px;font:800 20px/1.2 var(--f-display)}
-.au-verdict p{margin:0;max-width:75ch}
+.au-verdict p{margin:0 0 8px;max-width:78ch}.au-verdict p:last-child{margin-bottom:0}
+.au-atom{border-color:#bfe3cd}
 .au-sub{color:var(--muted);font-size:13.5px;margin:-6px 0 12px;max-width:80ch}
 .au-prod{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
 .au-p{padding:18px 20px}.au-p h3{margin:0 0 8px;font:700 15px/1.3 var(--f-body)}
@@ -345,6 +354,7 @@ a{color:inherit}
 .au-c{display:flex;flex-wrap:wrap;gap:5px}
 .au-chip{font-size:11.5px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);background:var(--bg);cursor:pointer;white-space:nowrap}
 .au-chip.au-bloquant{border-color:#e5b4ae;background:#fdeeec;color:#8e2a1f}
+.au-chip.au-ok{border-color:#bfe3cd;background:#eefaf2;color:#17683c}
 .au-chip:hover{border-color:var(--accent)}
 .au-a a{font-size:12.5px;color:var(--accent);text-decoration:none}
 .au-det td{background:var(--hover)}
@@ -363,6 +373,7 @@ a{color:inherit}
  .au-det td{background:none}
  .au-det ul{padding-left:16px}
  .au-tile b{font-size:28px}}
+.g-atom{display:inline-flex;align-items:center}
 /* Sandbox Covers */
 .cv-szrow{display:flex;align-items:center;gap:12px}.cv-szrow input{flex:1;accent-color:var(--accent)}.cv-sz{font-style:normal;font-weight:500;color:var(--muted);margin-left:6px;font-family:var(--f-mono);font-size:11px}
 .cv-sws{display:flex;flex-wrap:wrap;gap:8px}
@@ -412,14 +423,14 @@ a{color:inherit}
 /* Covers : tout l'outil tient dans l'écran (ordinateur) */
 .cv .page-h{margin:0}.cv .page-h h1{font-size:clamp(26px,3vw,34px);margin:0}
 .cv .page-h .meta{display:none}
-.cv-head{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:14px}
+.cv-head{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:20px}
 .cv-head .lead{margin:4px 0 0;font-size:14px}
 .cv-head .cv-tpls{margin:0}
 .cv-tips{font-size:13px;color:var(--muted)}.cv-tips summary{cursor:pointer;font-weight:600;color:inherit}.cv-tips ul{margin:8px 0 0;padding-left:18px;display:grid;gap:6px}
 .cv-tpls{margin:0}
 .cv-tpl{padding:7px 14px}
 @media (min-width:901px){
- .cv-grid{--cvh:max(460px,calc(100dvh - var(--cv-top,250px) - 16px));align-items:start}
+ .cv-grid{--cvh:max(460px,calc(100dvh - 32px));align-items:start} /* l'apercu colle en haut de l'ecran : sa hauteur ne depend plus de la position du bloc dans la page */
  .cv-form{gap:10px;padding:16px 18px;align-content:start}
  .cv-form h2{font-size:16px}
  .cv-stage{position:sticky;top:16px;align-self:start;justify-self:end;width:min(100%,calc(var(--cvh) - 96px));display:flex;flex-direction:column;align-items:stretch}
@@ -654,6 +665,8 @@ p.gt{margin:0}
 .y-card-cta{--c-bg:var(--y-background-neutral-invert);--c-bc:var(--y-stroke-brand-medium);--c-fg:var(--y-text-neutral-medium);
   position:relative;overflow:hidden;box-sizing:border-box;background:var(--c-bg);color:var(--c-fg);border:var(--y-stroke-width-sm) solid var(--c-bc);
   border-radius:var(--y-radius-2xl);display:flex;flex-direction:column;justify-content:space-between;gap:var(--y-gap-3xl);padding:var(--y-padding-3xl);transition:background-color .2s,color .2s}
+.y-card-cta{transition:transform .25s}
+.y-card-cta:hover{transform:rotate(2deg)}
 .y-card-cta--desktop{width:736px;min-height:339px}
 .y-card-cta--mobile{width:328px;min-height:338px;padding:var(--y-padding-xl);gap:var(--y-gap-xl)}
 .y-card-cta:hover,.y-card-cta.is-hover{--c-bg:var(--y-background-brand-medium);--c-bc:var(--y-stroke-brand-medium);--c-fg:var(--y-text-neutral-invert)}
@@ -754,14 +767,16 @@ p.gt{margin:0}
 
 <style>
 [hidden]{display:none!important}
-html,body{height:auto!important;overflow:auto!important}
+/* seul html defile : un body en overflow:auto aurait casse le position:sticky de l'apercu */
+html{height:auto!important;overflow:auto!important}
+body{height:auto!important;overflow:visible!important}
 body{margin:0;background:var(--bg);color:var(--text,#160f20)}
 .cv-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px;border-bottom:1px solid var(--line);background:var(--panel)}
 .cv-top .brand{display:flex;align-items:center;gap:10px;font:800 18px/1 var(--f-display);color:inherit;text-decoration:none}
 .cv-top .brand{color:#160f20}.ylogo{display:block;overflow:visible;width:auto}.ylogo text{font:600 36px/1 'Bricolage Grotesque',system-ui,sans-serif;font-variation-settings:'opsz' 14}
 .cv-top a.ds{display:inline-flex;align-items:center;gap:6px;font:600 13px/1 var(--f-body);color:var(--accent);text-decoration:none}.cv-top a.ds:hover{text-decoration:underline}
-#main{padding:20px 24px 8px;max-width:1240px;margin:0 auto}
-@media (max-width:600px){#main{padding:20px 16px 48px}.cv-top{padding:12px 16px}}
+#main{padding:34px 24px 8px;max-width:1240px;margin:0 auto}
+@media (max-width:600px){#main{padding:24px 16px 48px}.cv-top{padding:12px 16px}}
 </style></head><body>
 <header class="cv-top"><a class="brand" href="./" aria-label="Y.Cover, accueil"><svg class="ylogo" viewBox="0 0 140 39" height="30" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" fill="currentColor" d="M24.9648 0.595703C24.9547 0.680081 24.9456 0.766814 24.9355 0.855469L24.9814 0.857422C24.7324 11.3192 24.2392 20.4699 22.335 27.0225C23.2901 27.4244 24.062 27.7922 24.6006 28.0615L22.3643 32.5342C21.9196 32.3118 21.2848 32.0081 20.5 31.6748C19.6317 33.3017 18.5558 34.722 17.2031 35.833C15.2048 37.4743 12.7786 38.2979 9.98242 38.2979C5.10599 38.2979 1.85742 35.1698 1.85742 31.2979C1.85742 27.4259 5.10599 24.2979 9.98242 24.2979C12.7301 24.2979 15.3483 24.7682 17.6074 25.3838C18.0685 23.7516 18.4396 21.901 18.7402 19.8428C17.204 21.0637 15.2882 21.7979 12.9824 21.7979C10.1309 21.7979 7.87376 20.6774 6.19629 18.8984C4.59195 17.1969 3.59288 14.9798 2.92773 12.8066C1.61975 8.53283 1.33384 3.37753 1 0.595703L5.96484 0C6.35985 3.29151 6.57417 7.63602 7.70898 11.3438C8.26528 13.1613 8.97418 14.5558 9.83398 15.4678C10.6207 16.3021 11.5844 16.7979 12.9824 16.7979C14.3804 16.7979 15.3442 16.3021 16.1309 15.4678C16.9907 14.5558 17.6996 13.1613 18.2559 11.3438C19.3907 7.63602 19.605 3.29151 20 0L24.9648 0.595703ZM9.98242 29.2979C8.61496 29.2979 7.83917 29.7002 7.43652 30.0625C7.02788 30.4303 6.85742 30.8788 6.85742 31.2979C6.85742 31.7169 7.02788 32.1654 7.43652 32.5332C7.83917 32.8955 8.61496 33.2979 9.98242 33.2979C11.731 33.2979 13.0068 32.8095 14.0293 31.9697C14.61 31.4928 15.1577 30.8596 15.6689 30.0459C13.8981 29.6047 11.9568 29.2979 9.98242 29.2979Z"/><text x="28.5" y="25.4" fill="currentColor">.Cover</text></svg></a><a class="ds" href="../" target="_blank" rel="noopener">Voir le design system<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,104a8,8,0,0,1-16,0V59.32l-66.33,66.34a8,8,0,0,1-11.32-11.32L196.68,48H152a8,8,0,0,1,0-16h64a8,8,0,0,1,8,8Zm-40,24a8,8,0,0,0-8,8v72H48V80h72a8,8,0,0,0,0-16H48A16,16,0,0,0,32,80V208a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V136A8,8,0,0,0,184,128Z"/></svg></a></header>
 <main id="main"></main>
@@ -914,6 +929,11 @@ async function cvBoot(){
 let CV_TPL=(()=>{try{return localStorage.getItem('yb-covers-tpl')||'podcast'}catch(e){return 'podcast'}})();
 function cvHead(){const t=[['podcast','Podcast','Pause Produit · 800×800'],['live','Live','LinkedIn · 1200×630']];
   return `<div class="cv-head"><div><div class="page-h"><h1>Créer une cover</h1></div><p class="lead">Remplis, ajoute une photo, exporte. Mise en page et polices viennent du DS.</p></div><div class="cv-tpls" role="tablist">${t.map(([k,n,d])=>`<button type="button" role="tab" class="cv-tpl" data-tpl="${k}" aria-selected="${CV_TPL===k}"><b>${n}</b><span>${d}</span></button>`).join('')}</div></div>`}
+/* l'apercu reste colle en haut pendant qu'on edite : il doit donc tenir dans la zone qui defile, quelle qu'elle soit */
+function cvFitStage(){const g=$('.cv-grid');if(!g)return;let e=g.parentElement,sc=null;
+  while(e){const c=getComputedStyle(e);if(/auto|scroll/.test(c.overflowY)){sc=e;break}e=e.parentElement}
+  const h=Math.max(460,(sc?sc.clientHeight:innerHeight)-32);g.style.setProperty('--cvh',h+'px')}
+addEventListener('resize',cvFitStage);
 function cvBindHead(){$$('.cv-tpl[data-tpl]').forEach(b=>b.onclick=()=>{if(CV_TPL===b.dataset.tpl)return;CV_TPL=b.dataset.tpl;try{localStorage.setItem('yb-covers-tpl',CV_TPL)}catch(e){}pageCovers()})}
 function pageCovers(){
   if(CV_TPL==='live'){pageLive();return}
@@ -948,8 +968,7 @@ function pageCovers(){
    </div>
   </div>
   </div>`;
-  cvBindHead();
-  const cvFitTop=()=>{const g=$('.cv-grid');if(g)g.style.setProperty('--cv-top',Math.round(g.getBoundingClientRect().top+window.scrollY)+'px')};cvFitTop();addEventListener('resize',cvFitTop);
+  cvBindHead();cvFitStage();
   cvCanvas=$('#cvc');
   const bind=(id,k)=>{$('#'+id).addEventListener('input',e=>{CV[k]=e.target.value;cvSave();cvDraw()})};
   bind('cvnom','nom');bind('cvjob','job');bind('cvco','company');bind('cvtitre','titre');
@@ -1096,7 +1115,7 @@ function pageLive(){
      <label class="cv-check"><input id="lvhd" type="checkbox" checked> Haute définition (2400 px)</label></div>
    </div>
   </div></div>`;
-  cvBindHead();
+  cvBindHead();cvFitStage();
   lvCanvas=$('#lvc');
   const bind=(id,k)=>{$('#'+id).addEventListener('input',e=>{LV[k]=e.target.value;lvSave();lvDraw()})};
   bind('lvtitre','titre');bind('lvdate','date');bind('lvheure','heure');bind('lvnom','nom');bind('lvposte','poste');bind('lvhost','host');
@@ -1122,7 +1141,6 @@ function pageLive(){
     try{const c=document.createElement('canvas');lvRender(c,$('#lvhd').checked?2:1);
       const blob=await new Promise(r=>c.toBlob(r,'image/png'));const n='live-'+(slug((LV.nom||'cover').normalize('NFD').replace(/[̀-ͯ]/g,''))||'cover')+'.png';
       await saveFile(n,blob)}catch(e){toast('Export impossible')}finally{b.disabled=false}};
-  const fitTop=()=>{const g=$('.cv-grid');if(g)g.style.setProperty('--cv-top',Math.round(g.getBoundingClientRect().top+window.scrollY)+'px')};fitTop();
   lvBoot();
 }
 
