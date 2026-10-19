@@ -426,6 +426,12 @@ a{color:inherit}
 .cv-f input[type=range]{width:100%;accent-color:var(--accent)}
 .cv-hint{margin:-4px 0 0;font-size:12px;color:var(--muted)}
 .cv-hint.bad{color:#c0392b;font-weight:600}
+.cv-fmt{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.cv-fmtb{display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 16px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:inherit;font:inherit;cursor:pointer}
+.cv-fmtb b{font-size:13px}.cv-fmtb span{font-size:11px;color:var(--muted)}
+.cv-fmtb[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.cv-webbg{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:center;margin-top:10px}
+.cv-webbg__l{font-size:12px;font-weight:600;color:var(--muted)}
 .cv-stage .cv-hint{margin:10px 0 0;text-align:center}
 .cv-warn{margin:0;padding:10px 12px;border-radius:10px;background:#fff3cd;color:#6b4e00;font-size:13px}
 .cv-drop{display:flex;gap:12px;align-items:center;padding:14px;border:1.5px dashed var(--line);border-radius:12px;cursor:pointer;color:var(--accent);transition:border-color .15s,background .15s}
@@ -456,7 +462,7 @@ a{color:inherit}
  .cv-grid{--cvh:max(460px,calc(100dvh - 32px));align-items:start} /* l'apercu colle en haut de l'ecran : sa hauteur ne depend plus de la position du bloc dans la page */
  .cv-form{gap:10px;padding:16px 18px;align-content:start}
  .cv-form h2{font-size:16px}
- .cv-stage{position:sticky;top:16px;align-self:start;justify-self:end;width:min(100%,calc(var(--cvh) - 96px));display:flex;flex-direction:column;align-items:stretch}
+ .cv-stage{position:sticky;top:16px;align-self:start;justify-self:end;width:min(100%,calc(var(--cvh) - var(--cvres,96px)));display:flex;flex-direction:column;align-items:stretch}
  .cv-stage--wide{width:100%}
  .cv-canvas{width:100%;max-width:none;margin:0}
  .cv-stage .cv-hint{margin-top:8px}
@@ -843,11 +849,11 @@ const CV_SVG={union:`<svg width="294" height="205" viewBox="0 0 294 205" fill="n
 const CV_IMG={};
 const cvImg=src=>new Promise((ok,ko)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=ko;i.src=src});
 const cvSvgUrl=s=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);
-const CV_DEF={nom:'',job:'',company:'',titre:'',bw:true,zoom:1,dx:0,dy:0,tsz:0};
+const CV_DEF={nom:'',job:'',company:'',titre:'',bw:true,zoom:1,dx:0,dy:0,tsz:0,fmt:'carre',web:'Vert'};
 const CV_PH={nom:'Prénom Nom',job:'JobName',company:'CompanyName',titre:'Titre du podcast'};
 const CV={...CV_DEF,photo:null,pre:false,warn:''};
-try{const s=JSON.parse(localStorage.getItem('yb-covers-pp')||'null');if(s)['nom','job','company','titre','bw','tsz'].forEach(k=>{if(k in s&&s[k]!==CV_PH[k])CV[k]=s[k]})}catch(e){}
-const cvSave=()=>{try{localStorage.setItem('yb-covers-pp',JSON.stringify({nom:CV.nom,job:CV.job,company:CV.company,titre:CV.titre,bw:CV.bw,tsz:CV.tsz}))}catch(e){}};
+try{const s=JSON.parse(localStorage.getItem('yb-covers-pp')||'null');if(s)['nom','job','company','titre','bw','tsz','fmt','web'].forEach(k=>{if(k in s&&s[k]!==CV_PH[k])CV[k]=s[k]})}catch(e){}
+const cvSave=()=>{try{localStorage.setItem('yb-covers-pp',JSON.stringify({nom:CV.nom,job:CV.job,company:CV.company,titre:CV.titre,bw:CV.bw,tsz:CV.tsz,fmt:CV.fmt,web:CV.web}))}catch(e){}};
 const CV_FONT='"Bricolage Grotesque",system-ui,sans-serif';
 /* photo : noir et blanc façon Figma (saturation -1, exposition +, contraste -) */
 function cvProcess(img,bw){
@@ -908,7 +914,24 @@ function cvRender(c,scale){
   x.strokeStyle='#4d25f7';x.lineWidth=1;x.strokeRect(24,24,752,752);
 }
 let cvCanvas=null;
-const cvDraw=()=>{if(!cvCanvas)return;cvRender(cvCanvas,2);const t=$('#cvtip');if(t){t.textContent=CV.cutT?(CV.tsz?'Titre trop long pour cette taille : réduis la taille ou raccourcis-le.':'Titre trop long : il est coupé sur la cover. Raccourcis-le.'):'2 lignes maximum : la taille du texte s’adapte.';t.classList.toggle('bad',!!CV.cutT)}const zl=$('#cvszl');if(zl){zl.textContent=(CV.tsz?'':'auto · ')+CV.size+' px';const r=$('#cvsz');if(r&&!CV.tsz)r.value=CV.size}};
+/* Format site web : la même pochette, posée en plus petit sur un fond coloré.
+   Proportions relevées sur la maquette : pochette à 84% de la hauteur, cadre
+   blanc de 22px autour, le tout centré dans 1200×800. */
+const CV_WEB={w:1200,h:800,carre:672,liseré:22};
+function cvRenderWeb(c,scale){
+  const x=c.getContext('2d'),W=CV_WEB.w,H=CV_WEB.h;
+  c.width=W*scale;c.height=H*scale;x.setTransform(scale,0,0,scale,0,0);
+  const fond=(LV_STYLES[CV.web]||LV_STYLES.Vert)[0];
+  x.fillStyle=fond;x.fillRect(0,0,W,H);
+  const b=CV_WEB.carre,bx=Math.round((W-b)/2),by=Math.round((H-b)/2);
+  x.fillStyle='#ffffff';x.fillRect(bx,by,b,b);
+  const l=CV_WEB.liseré,d=b-l*2;
+  /* la pochette est rendue à sa taille native puis réduite : le texte garde sa netteté */
+  const tmp=document.createElement('canvas');cvRender(tmp,2);
+  x.drawImage(tmp,bx+l,by+l,d,d);
+}
+const cvFmtCarre=()=>CV.fmt!=='web';
+const cvDraw=()=>{if(!cvCanvas)return;(cvFmtCarre()?cvRender:cvRenderWeb)(cvCanvas,2);cvFitStage();const t=$('#cvtip');if(t){t.textContent=CV.cutT?(CV.tsz?'Titre trop long pour cette taille : réduis la taille ou raccourcis-le.':'Titre trop long : il est coupé sur la cover. Raccourcis-le.'):'2 lignes maximum : la taille du texte s’adapte.';t.classList.toggle('bad',!!CV.cutT)}const zl=$('#cvszl');if(zl){zl.textContent=(CV.tsz?'':'auto · ')+CV.size+' px';const r=$('#cvsz');if(r&&!CV.tsz)r.value=CV.size}};
 /* détourage automatique : MediaPipe Selfie Segmentation (Apache 2.0), chargé depuis jsDelivr au premier usage */
 const MP_VERS=['0.1.1675465747','0.1.1632777926'];let MP=null;
 function mpLoad(){if(MP)return MP;MP=(async()=>{let last;
@@ -952,12 +975,17 @@ async function cvBoot(){
     cvDraw();
 }
 let CV_TPL=(()=>{try{return localStorage.getItem('yb-covers-tpl')||'podcast'}catch(e){return 'podcast'}})();
-function cvHead(){const t=[['podcast','Podcast','Pause Produit · 800×800'],['live','Live','LinkedIn · 1200×630']];
+function cvHead(){const t=[['podcast','Podcast','Pause Produit · 800×800 et 1200×800'],['live','Live','LinkedIn · 1200×630']];
   return `<div class="cv-head"><div><div class="page-h"><h1>Créer une cover</h1></div><p class="lead">Remplis, ajoute une photo, exporte. Mise en page et polices viennent du DS.</p></div><div class="cv-tpls" role="tablist">${t.map(([k,n,d])=>`<button type="button" role="tab" class="cv-tpl" data-tpl="${k}" aria-selected="${CV_TPL===k}"><b>${n}</b><span>${d}</span></button>`).join('')}</div></div>`}
 /* l'apercu reste colle en haut pendant qu'on edite : il doit donc tenir dans la zone qui defile, quelle qu'elle soit */
 function cvFitStage(){const g=$('.cv-grid');if(!g)return;let e=g.parentElement,sc=null;
   while(e){const c=getComputedStyle(e);if(/auto|scroll/.test(c.overflowY)){sc=e;break}e=e.parentElement}
-  const h=Math.max(460,(sc?sc.clientHeight:innerHeight)-32);g.style.setProperty('--cvh',h+'px')}
+  const h=Math.max(460,(sc?sc.clientHeight:innerHeight)-32);g.style.setProperty('--cvh',h+'px');
+  /* ce qui est sous l'aperçu (format, couleurs, légende, export) mange la hauteur
+     disponible : on le mesure au lieu de le supposer */
+  const st=$('.cv-stage');if(!st)return;
+  let res=0;[...st.children].forEach(c=>{if(!c.classList.contains('cv-canvas')&&!c.hidden)res+=c.getBoundingClientRect().height+10});
+  g.style.setProperty('--cvres',Math.max(96,Math.round(res))+'px')}
 addEventListener('resize',cvFitStage);
 function cvBindHead(){$$('.cv-tpl[data-tpl]').forEach(b=>b.onclick=()=>{if(CV_TPL===b.dataset.tpl)return;CV_TPL=b.dataset.tpl;try{localStorage.setItem('yb-covers-tpl',CV_TPL)}catch(e){}pageCovers()})}
 function pageCovers(){
@@ -988,6 +1016,11 @@ function pageCovers(){
    <div class="cv-stage">
     <div class="cv-canvas" id="cvwrap"><canvas id="cvc" aria-label="Aperçu de la cover"></canvas></div>
     <p class="cv-hint">Glisse la photo pour la recadrer, utilise le curseur Zoom pour l’agrandir.</p>
+    <div class="cv-fmt" role="group" aria-label="Format de la cover">
+     <button type="button" class="cv-fmtb" data-fmt="carre" aria-pressed="${CV.fmt!=='web'}"><b>Pochette</b><span>800 × 800</span></button>
+     <button type="button" class="cv-fmtb" data-fmt="web" aria-pressed="${CV.fmt==='web'}"><b>Site web</b><span>1200 × 800</span></button>
+    </div>
+    <div class="cv-webbg" id="cvwebbg" ${CV.fmt==='web'?'':'hidden'}><span class="cv-webbg__l">Couleur de fond</span><div class="cv-inline">${Object.entries(LV_STYLES).map(([n2,[bg,pat]])=>`<label class="cv-sw" title="${n2}"><input type="radio" name="cvweb" value="${n2}" ${CV.web===n2?'checked':''}><i style="background:${bg};box-shadow:inset 0 0 0 3px ${pat}"></i><span>${n2}</span></label>`).join('')}</div></div>
     <div class="cv-actions"><button type="button" class="y-btn y-btn--primary y-btn--md" id="cvexport">${ic('DownloadSimple')}<span>Exporter en PNG</span></button>
      <label class="cv-check"><input id="cvhd" type="checkbox" checked> Haute définition (1600 px)</label></div>
    </div>
@@ -1000,6 +1033,10 @@ function pageCovers(){
   $('#cvzoom').addEventListener('input',e=>{CV.zoom=e.target.value/100;cvDraw()});
   $('#cvsz').addEventListener('input',e=>{CV.tsz=+e.target.value;cvSave();cvDraw()});$('#cvszauto').onclick=()=>{CV.tsz=0;cvSave();cvDraw()};
   $('#cvbw').addEventListener('change',e=>{CV.bw=e.target.checked;cvSave();if(CV.raw&&!CV.pre)CV.photo=cvProcess(CV.raw,CV.bw);cvDraw()});
+  $$('.cv-fmtb').forEach(b=>b.onclick=()=>{CV.fmt=b.dataset.fmt;cvSave();
+    $$('.cv-fmtb').forEach(o=>o.setAttribute('aria-pressed',String(o.dataset.fmt===CV.fmt)));
+    $('#cvwebbg').hidden=cvFmtCarre();cvFitStage();cvDraw()});
+  $$('input[name=cvweb]').forEach(r=>r.addEventListener('change',e=>{CV.web=e.target.value;cvSave();cvDraw()}));
   $('#cvcut').onclick=cvDoCut;
   $('#cvuncut').onclick=()=>{CV.raw=CV.orig;CV.cutDone=false;CV.photo=cvProcess(CV.orig,CV.bw);CV.warn=cvHasAlpha(CV.orig)?'':'Cette photo n’a pas de fond transparent : le fond apparaîtra sur la cover. Détoure-la d’abord.';const w=$('#cvwarn');w.textContent=CV.warn;w.hidden=!CV.warn;cvCutUI();cvDraw()};
   $('#cvrecenter').onclick=()=>{CV.zoom=1;CV.dx=0;CV.dy=0;$('#cvzoom').value=100;cvDraw()};
@@ -1009,13 +1046,17 @@ function pageCovers(){
   file.addEventListener('change',()=>take(file.files));
   [drop,$('#cvwrap')].forEach(el=>{el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('over')});el.addEventListener('dragleave',()=>el.classList.remove('over'));el.addEventListener('drop',e=>{e.preventDefault();el.classList.remove('over');take(e.dataTransfer.files)})});
   /* recadrage à la souris / au doigt */
-  let drag=null;const k=()=>800/cvCanvas.getBoundingClientRect().width;
+  let drag=null;
+  /* en format site web la pochette est réduite : le geste doit suivre la même échelle */
+  const k=()=>cvFmtCarre()?800/cvCanvas.getBoundingClientRect().width
+    :(CV_WEB.w/cvCanvas.getBoundingClientRect().width)*(800/(CV_WEB.carre-CV_WEB.liseré*2));
   cvCanvas.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,dx:CV.dx,dy:CV.dy};cvCanvas.setPointerCapture(e.pointerId);cvCanvas.classList.add('grab')});
   cvCanvas.addEventListener('pointermove',e=>{if(!drag)return;CV.dx=drag.dx+(e.clientX-drag.x)*k();CV.dy=drag.dy+(e.clientY-drag.y)*k();cvDraw()});
   const up=()=>{drag=null;cvCanvas.classList.remove('grab')};cvCanvas.addEventListener('pointerup',up);cvCanvas.addEventListener('pointercancel',up);
   $('#cvexport').onclick=async()=>{const b=$('#cvexport');b.disabled=true;
-    try{const c=document.createElement('canvas');cvRender(c,$('#cvhd').checked?2:1);
-      const blob=await new Promise(r=>c.toBlob(r,'image/png'));const n='pause-produit-'+(slug((CV.nom||'cover').normalize('NFD').replace(/[̀-ͯ]/g,''))||'cover')+'.png';
+    try{const c=document.createElement('canvas');const hd=$('#cvhd').checked;
+      if(cvFmtCarre())cvRender(c,hd?2:1); else cvRenderWeb(c,hd?2:1);
+      const blob=await new Promise(r=>c.toBlob(r,'image/png'));const n='pause-produit-'+(slug((CV.nom||'cover').normalize('NFD').replace(/[̀-ͯ]/g,''))||'cover')+(cvFmtCarre()?'':'-site')+'.png';
       await saveFile(n,blob)}catch(e){toast('Export impossible')}finally{b.disabled=false}};
   cvBoot();
 }
