@@ -1,7 +1,9 @@
 /* Design system Yeita — composants
    Source de vérité : ce fichier. Il est réinjecté dans index.html par build.py.
    Dépend de tokens/tokens.css : charger les deux, dans cet ordre.
-   Les blocs /* @@nom */ … /* @@end */ délimitent chaque composant pour l'export par composant. */
+   Chaque composant est délimité par un commentaire « @@nom » et un commentaire « @@end »,
+   pour l'export par composant. Ne pas écrire de marqueur de commentaire dans ce texte :
+   un commentaire CSS ne s'imbrique pas, il se fermerait trop tôt. */
 /* @@base */
 .y-icon{flex:none;display:block}
 .y-wordmark{font:800 16px/15px var(--y-font-primary);letter-spacing:.06em;font-variation-settings:"opsz" var(--y-font-optical-size);color:currentColor;text-transform:uppercase}
