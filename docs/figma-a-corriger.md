@@ -74,6 +74,8 @@ servie nulle part : le repli ne s'appliquait que chez les personnes l'ayant
 installée localement, avec un rendu différent des autres.
 
 État côté code : retirée des trois piles, qui tombent maintenant directement
-sur `system-ui`.
+sur `system-ui`. Le chargement de la police depuis Google Fonts, resté dans
+`index.html` et `covers/index.html` alors que plus rien ne l'utilisait, est
+retiré lui aussi : il transmettait l'adresse IP de chaque visiteur à Google.
 
 À faire : rien, sauf si l'équipe veut réellement embarquer cette police.
