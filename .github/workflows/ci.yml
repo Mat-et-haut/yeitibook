@@ -1,7 +1,7 @@
 # Vérification automatique : à chaque proposition de modification (pull request)
 # et à chaque mise à jour de main, GitHub repart d'une machine neuve, installe
-# tout et reconstruit le DS. Si quelque chose dépend d'un fichier absent du dépôt,
-# ça échoue ici.
+# tout, reconstruit le DS et passe la barrière qualité. Si quelque chose dépend
+# d'un fichier absent du dépôt, ou enfreint une règle de niveau, ça échoue ici.
 name: CI
 
 on:
@@ -22,3 +22,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm build
+      # Barrière qualité : règles de niveau et critères des composants (tests/).
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test
