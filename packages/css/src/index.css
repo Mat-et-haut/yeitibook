@@ -1,0 +1,8 @@
+/* Point d'entrée de @yeita/css.
+   Les niveaux s'ajoutent ici dans l'ordre, chacun n'utilisant que les précédents :
+   tokens (lot 4), fondations (lot 5), atomes (lot 6), molécules (lot 7).
+   En attendant, legacy-components.css reprend tel quel le CSS du Yeitibook figé ;
+   il disparaît au fur et à mesure que les niveaux le remplacent. */
+@import "./fonts.css";
+@import "@yeita/tokens/tokens.css";
+@import "./legacy-components.css";

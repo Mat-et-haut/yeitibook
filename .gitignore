@@ -1,1 +1,10 @@
+# Yeitibook figé (legacy/tools/check.py)
 .check-banc.html
+# Dépendances et sorties générées
+node_modules/
+apps/docs/dist/
+test-results/
+playwright-report/
+tests/resultats/
+*.log
+.DS_Store

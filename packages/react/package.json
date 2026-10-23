@@ -1,0 +1,21 @@
+{
+  "name": "@yeita/react",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Composants React du DS Yeita. Ils posent les classes de @yeita/css, sans style propre.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "dependencies": {
+    "@yeita/css": "workspace:*"
+  },
+  "devDependencies": {
+    "@storybook/react-vite": "^10.6.3",
+    "react": ">=18",
+    "react-dom": "^19.3.1"
+  }
+}
