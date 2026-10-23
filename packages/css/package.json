@@ -1,0 +1,8 @@
+{
+  "name": "@yeita/css",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Styles du DS Yeita : polices, fondations, atomes, molécules.",
+  "exports": { ".": "./src/index.css", "./*": "./src/*" },
+  "dependencies": { "@yeita/tokens": "workspace:*" }
+}

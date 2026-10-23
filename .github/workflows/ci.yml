@@ -1,0 +1,24 @@
+# Vérification automatique : à chaque proposition de modification (pull request)
+# et à chaque mise à jour de main, GitHub repart d'une machine neuve, installe
+# tout et reconstruit le DS. Si quelque chose dépend d'un fichier absent du dépôt,
+# ça échoue ici.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  construire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm build
